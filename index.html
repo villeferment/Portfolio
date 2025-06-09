@@ -26,6 +26,17 @@
       text-transform: uppercase;
     }
 
+    .no-border-heading {
+      font-family: 'Anton', sans-serif;
+      font-size: 3.5rem;
+      font-weight: bold;
+      letter-spacing: 0.02em;
+      display: inline-block;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      text-transform: none;
+    }
+
     header {
       padding: 2rem;
     }
@@ -94,6 +105,8 @@
       min-width: 100%;
       max-width: 100%;
       height: auto;
+      max-height: 250px;
+      object-fit: contain;
     }
 
     .carousel-btn {
@@ -121,7 +134,7 @@
 
   <header>
     <img class="intro-gif" src="GIF hemsida.gif" alt="Ville FERMENT intro" />
-    <h1 class="custom-heading">ville FERMENT</h1>
+    <h1 class="no-border-heading">ville FERMENT</h1>
     <div class="section-links">
       <a href="#music">MUSIC</a>
       <a href="#form">FORM</a>
