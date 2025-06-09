@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ville FERMENT</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #f5f5f5;
+      color: #111;
+      text-align: center;
+    }
+    header {
+      padding: 2rem;
+    }
+    .intro-gif {
+      width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin: 1rem 0;
+    }
+    .section-links a {
+      display: inline-block;
+      margin: 1rem;
+      padding: 1rem 2rem;
+      background: transparent;
+      color: #111;
+      text-decoration: none;
+      border: 2px solid #111;
+      border-radius: 0;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .section-links a:hover {
+      background-color: #111;
+      color: #fff;
+    }
+    .project {
+      margin: 3rem 0;
+    }
+    .project img {
+      width: 250px;
+      margin: 1rem auto;
+    }
+    iframe {
+      max-width: 90%;
+    }
+    .footer {
+      margin-top: 4rem;
+      padding: 2rem;
+      background-color: #222;
+      color: #fff;
+    }
+    .gallery img {
+      max-width: 300px;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img class="intro-gif" src="GIF hemsida.gif" alt="Ville FERMENT intro" />
+    <h1>ville FERMENT</h1>
+    <div class="section-links">
+      <a href="#music">MUSIC</a>
+      <a href="#design">FORM</a>
+    </div>
+  </header>
+
+  <section id="music">
+    <h2>Music</h2>
+    <div class="project">
+      <h3>EUKARYA (2025)</h3>
+      <p>Artist, songwriter & producer – FERMENT</p>
+      <img src="ALBUM COVER EUK.jpg" alt="EUKARYA album cover" />
+      <a href="https://open.spotify.com/album/1KAtw2uYgNiH0zGs1L31DL?si=pfCcUDqjQ8Gdtzb6Jx1rpg" target="_blank">Listen on Spotify</a>
+    </div>
+    <div class="project">
+      <h3>FAAW (2024)</h3>
+      <p>Artist, songwriter & producer – FERMENT</p>
+      <img src="ALBUMCOVER FAAW kopiera.jpg" alt="FAAW album cover" />
+      <a href="https://open.spotify.com/album/24eoeFe7fDuIraRPceMVWO?si=fwmaBwBeRnqo7S2fS4CLDg" target="_blank">Listen on Spotify</a>
+    </div>
+    <div class="project">
+      <h3>Video Year Visualizer</h3>
+      <p>Filmed and edited by ville FERMENT</p>
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/CmVLalLLPj0" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <section id="design">
+    <h2>Design</h2>
+    <div class="project">
+      <h3>Konstnären AI: A conversation with ChatGPT</h3>
+      <p>Project exploring AI as an artist</p>
+      <div class="pdf-carousel">
+        <button class="carousel-btn prev" onclick="plusSlides(-1)">&#10094;</button>
+        <div class="carousel-track">
+          <img src="ai-page-1.png" class="carousel-slide" />
+          <img src="ai-page-2.png" class="carousel-slide" />
+          <img src="ai-page-3.png" class="carousel-slide" />
+        </div>
+        <button class="carousel-btn next" onclick="plusSlides(1)">&#10095;</button>
+      </div>
+
+      <style>
+        .pdf-carousel {
+          position: relative;
+          width: 90%;
+          margin: 2rem auto;
+          overflow: hidden;
+        }
+        .carousel-track {
+          display: flex;
+          transition: transform 0.4s ease-in-out;
+        }
+        .carousel-slide {
+          min-width: 100%;
+          max-width: 100%;
+          height: auto;
+        }
+        .carousel-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background-color: rgba(0, 0, 0, 0.6);
+          color: white;
+          border: none;
+          padding: 1rem;
+          font-size: 2rem;
+          cursor: pointer;
+          z-index: 2;
+        }
+        .prev { left: 0; }
+        .next { right: 0; }
+      </style>
+
+      <script>
+        let slideIndex = 0;
+        const track = document.querySelector('.carousel-track');
+        const slides = document.querySelectorAll('.carousel-slide');
+
+        function plusSlides(n) {
+          slideIndex += n;
+          if (slideIndex < 0) slideIndex = slides.length - 1;
+          if (slideIndex >= slides.length) slideIndex = 0;
+          track.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
+        }
+      </script>
+    </div>
+    <div class="project">
+      <h3>Graphic Design – FRVR</h3>
+      <p>Artwork for Daouda's single "FRVR"</p>
+      <div class="gallery">
+        <img src="FRVR cover.png" alt="FRVR Cover by ville FERMENT" />
+        <p><em>Graphic design by ville FERMENT</em></p>
+      </div>
+      <a href="https://open.spotify.com/track/1R52wxxPBP4pIOntaf00Nf?si=249f594167e849a0" target="_blank">Listen on Spotify</a>
+    </div>
+  </section>
+
+  <div class="footer">
+    <h3>Contact</h3>
+    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">
+      Email: <a href="mailto:villeferment@gmail.com" style="color: #fff; text-decoration: underline;">villeferment@gmail.com</a>
+    </p>
+    <p style="font-size: 1.1rem;">
+      <a href="https://www.instagram.com/villeferment/" target="_blank" style="color: #fff; margin-right: 1rem;">Instagram</a>
+      <a href="https://www.tiktok.com/@villeferment" target="_blank" style="color: #fff;">TikTok</a>
+    </p>
+  </div>
+</body>
+</html>
