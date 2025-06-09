@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ville FERMENT</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -15,11 +15,11 @@
     }
 
     .custom-heading {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3rem;
-      font-weight: normal;
-      letter-spacing: 0.05em;
-      border-bottom: 2px solid #111;
+      font-family: 'Anton', sans-serif;
+      font-size: 3.5rem;
+      font-weight: bold;
+      letter-spacing: 0.02em;
+      border-bottom: 5px solid #111;
       display: inline-block;
       padding-bottom: 0.5rem;
       margin-bottom: 1rem;
@@ -78,6 +78,40 @@
       margin-top: 1rem;
     }
 
+    .carousel {
+      position: relative;
+      width: 90%;
+      margin: 2rem auto;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      padding: 1rem;
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .carousel-btn.prev { left: 0; }
+    .carousel-btn.next { right: 0; }
+
     a {
       color: inherit;
     }
@@ -120,12 +154,18 @@
     <div class="project">
       <h3>Konstnären AI: A conversation with ChatGPT</h3>
       <p>Project exploring AI as an artist</p>
-      <div class="gallery">
-        <img src="ai-page-1.png" alt="AI page 1" />
-        <img src="ai-page-2.png" alt="AI page 2" />
-        <img src="ai-page-3.png" alt="AI page 3" />
+      <div class="carousel">
+        <button class="carousel-btn prev" onclick="plusSlides(-1)">&#10094;</button>
+        <div class="carousel-track" id="carousel-track">
+          <img src="ai-page-1.png" class="carousel-slide" alt="AI page 1">
+          <img src="ai-page-2.png" class="carousel-slide" alt="AI page 2">
+          <img src="ai-page-3.png" class="carousel-slide" alt="AI page 3">
+          <img src="ai-page-4.png" class="carousel-slide" alt="AI page 4">
+        </div>
+        <button class="carousel-btn next" onclick="plusSlides(1)">&#10095;</button>
       </div>
     </div>
+
     <div class="project">
       <h3>Graphic Design – FRVR</h3>
       <p>Artwork for Daouda's single "FRVR"</p>
@@ -147,6 +187,19 @@
       <a href="https://www.tiktok.com/@villeferment" target="_blank" style="color: #fff;">TikTok</a>
     </p>
   </div>
+
+  <script>
+    let slideIndex = 0;
+    const track = document.getElementById('carousel-track');
+    const slides = document.querySelectorAll('.carousel-slide');
+
+    function plusSlides(n) {
+      slideIndex += n;
+      if (slideIndex < 0) slideIndex = slides.length - 1;
+      if (slideIndex >= slides.length) slideIndex = 0;
+      track.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
+    }
+  </script>
 
 </body>
 </html>
