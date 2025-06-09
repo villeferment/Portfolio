@@ -60,6 +60,19 @@
       max-width: 300px;
       margin-top: 1rem;
     }
+    .pdf-viewer {
+      width: 90%;
+      height: 500px;
+      overflow-x: scroll;
+      white-space: nowrap;
+      border: 1px solid #ccc;
+      margin: 2rem auto;
+    }
+    .pdf-viewer iframe {
+      display: inline-block;
+      height: 100%;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -68,7 +81,7 @@
     <h1>ville FERMENT</h1>
     <div class="section-links">
       <a href="#music">MUSIC</a>
-      <a href="#design">FORM</a>
+      <a href="#form">FORM</a>
     </div>
   </header>
 
@@ -99,59 +112,60 @@
       <h3>Konstnären AI: A conversation with ChatGPT</h3>
       <p>Project exploring AI as an artist</p>
       <div class="pdf-carousel">
-        <button class="carousel-btn prev" onclick="plusSlides(-1)">&#10094;</button>
-        <div class="carousel-track">
-          <img src="ai-page-1.png" class="carousel-slide" />
-          <img src="ai-page-2.png" class="carousel-slide" />
-          <img src="ai-page-3.png" class="carousel-slide" />
-        </div>
-        <button class="carousel-btn next" onclick="plusSlides(1)">&#10095;</button>
-      </div>
+  <button class="carousel-btn prev" onclick="plusSlides(-1)">&#10094;</button>
+  <div class="carousel-track">
+    <img src="ai-page-1.png" class="carousel-slide" style="max-width: 90%; height: auto; object-fit: contain;" />
+    <img src="ai-page-2.png" class="carousel-slide" style="max-width: 90%; height: auto; object-fit: contain;" />
+    <img src="ai-page-3.png" class="carousel-slide" style="max-width: 90%; height: auto; object-fit: contain;" />
+    <!-- Lägg till fler sidor här om det behövs -->
+  </div>
+  <button class="carousel-btn next" onclick="plusSlides(1)">&#10095;</button>
+</div>
 
-      <style>
-        .pdf-carousel {
-          position: relative;
-          width: 90%;
-          margin: 2rem auto;
-          overflow: hidden;
-        }
-        .carousel-track {
-          display: flex;
-          transition: transform 0.4s ease-in-out;
-        }
-        .carousel-slide {
-          min-width: 100%;
-          max-width: 100%;
-          height: auto;
-        }
-        .carousel-btn {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          background-color: rgba(0, 0, 0, 0.6);
-          color: white;
-          border: none;
-          padding: 1rem;
-          font-size: 2rem;
-          cursor: pointer;
-          z-index: 2;
-        }
-        .prev { left: 0; }
-        .next { right: 0; }
-      </style>
+<style>
+  .pdf-carousel {
+    position: relative;
+    width: 90%;
+    margin: 2rem auto;
+    overflow: hidden;
+  }
+  .carousel-track {
+    display: flex;
+    transition: transform 0.4s ease-in-out;
+  }
+  .carousel-slide {
+    min-width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .prev { left: 0; }
+  .next { right: 0; }
+</style>
 
-      <script>
-        let slideIndex = 0;
-        const track = document.querySelector('.carousel-track');
-        const slides = document.querySelectorAll('.carousel-slide');
+<script>
+  let slideIndex = 0;
+  const track = document.querySelector('.carousel-track');
+  const slides = document.querySelectorAll('.carousel-slide');
 
-        function plusSlides(n) {
-          slideIndex += n;
-          if (slideIndex < 0) slideIndex = slides.length - 1;
-          if (slideIndex >= slides.length) slideIndex = 0;
-          track.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
-        }
-      </script>
+  function plusSlides(n) {
+    slideIndex += n;
+    if (slideIndex < 0) slideIndex = slides.length - 1;
+    if (slideIndex >= slides.length) slideIndex = 0;
+    track.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
+  }
+</script>
     </div>
     <div class="project">
       <h3>Graphic Design – FRVR</h3>
@@ -165,14 +179,14 @@
   </section>
 
   <div class="footer">
-    <h3>Contact</h3>
-    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">
-      Email: <a href="mailto:villeferment@gmail.com" style="color: #fff; text-decoration: underline;">villeferment@gmail.com</a>
-    </p>
-    <p style="font-size: 1.1rem;">
-      <a href="https://www.instagram.com/villeferment/" target="_blank" style="color: #fff; margin-right: 1rem;">Instagram</a>
-      <a href="https://www.tiktok.com/@villeferment" target="_blank" style="color: #fff;">TikTok</a>
-    </p>
-  </div>
+  <h3>Contact</h3>
+  <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">
+    Email: <a href="mailto:villeferment@gmail.com" style="color: #fff; text-decoration: underline;">villeferment@gmail.com</a>
+  </p>
+  <p style="font-size: 1.1rem;">
+    <a href="https://www.instagram.com/villeferment/" target="_blank" style="color: #fff; margin-right: 1rem;">Instagram</a>
+    <a href="https://www.tiktok.com/@villeferment" target="_blank" style="color: #fff;">TikTok</a>
+  </p>
+</div>
 </body>
 </html>
