@@ -24,7 +24,7 @@
       height: 100vh;
       z-index: -1;
       pointer-events: none;
-      background: white;
+      background: white; /* Se till att canvasen har en bakgrundsfärg om bilderna laddas långsamt */
     }
 
     .custom-heading {
@@ -144,7 +144,6 @@
 </head>
 <body>
 
-  <!-- Canvas för scrollanimation -->
   <canvas id="bg-canvas"></canvas>
 
   <header>
@@ -189,14 +188,14 @@
       <h3>A conversation with ChatGPT (2025)</h3>
       <p>A project exploring the diffrence between AI and human as artists</p>
       <div class="carousel">
-        <button class="carousel-btn prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="carousel-btn prev" onclick="plusSlides(-1)">❮</button>
         <div class="carousel-track" id="carousel-track">
           <img src="ai-page-1.png" class="carousel-slide" alt="AI page 1" />
           <img src="ai-page-2.png" class="carousel-slide" alt="AI page 2" />
           <img src="ai-page-3.png" class="carousel-slide" alt="AI page 3" />
           <img src="ai-page-4.png" class="carousel-slide" alt="AI page 4" />
         </div>
-        <button class="carousel-btn next" onclick="plusSlides(1)">&#10095;</button>
+        <button class="carousel-btn next" onclick="plusSlides(1)">❯</button>
       </div>
     </div>
 
@@ -223,73 +222,102 @@
   </div>
 
   <script>
-    const canvas = document.getElementById("bg-canvas");
-    const context = canvas.getContext("2d");
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById("bg-canvas");
+      const context = canvas.getContext("2d");
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-
-    const frameCount = 40;
-    const images = [];
-    let loadedImages = 0;
-
-    function currentFrame(index) {
-      return `frames/${String(index + 1).padStart(4, "0")}.png`;
-    }
-
-    for (let i = 0; i < frameCount; i++) {
-      const img = new Image();
-      img.src = currentFrame(i);
-      img.onload = () => {
-        loadedImages++;
-        if (loadedImages === frameCount) {
-          render();
-        }
-      };
-      images.push(img);
-    }
-
-    const audioSection = document.getElementById("audio");
-
-    function getOffsetTop(elem) {
-      let offsetTop = 0;
-      while (elem) {
-        offsetTop += elem.offsetTop;
-        elem = elem.offsetParent;
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
       }
-      return offsetTop;
-    }
-
-    function render() {
-      if (loadedImages < frameCount) return;
-
-      const scrollY = window.scrollY || window.pageYOffset;
-      const audioOffset = getOffsetTop(audioSection);
-      const windowHeight = window.innerHeight;
-
-      let scrollRel = (scrollY - audioOffset) / windowHeight;
-      scrollRel = Math.max(0, scrollRel);
-      scrollRel = Math.min(1, scrollRel);
-
-      const frameIndex = Math.floor(scrollRel * (frameCount - 1));
-      const img = images[frameIndex];
-
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.drawImage(img, 0, 0, canvas.width, canvas.height);
-    }
-
-    window.addEventListener("scroll", render);
-    window.addEventListener("resize", () => {
       resizeCanvas();
+
+      const frameCount = 40;
+      const images = [];
+      let loadedImages = 0;
+
+      function currentFrame(index) {
+        // Ser till att bildsökvägen är korrekt för dina numrerade filer
+        // Exempel: frames/0001.png, frames/0002.png, ..., frames/0040.png
+        return `frames/${String(index + 1).padStart(4, "0")}.png`;
+      }
+
+      for (let i = 0; i < frameCount; i++) {
+        const img = new Image();
+        img.src = currentFrame(i);
+        img.onload = () => {
+          loadedImages++;
+          if (loadedImages === frameCount) {
+            // Anropa render efter att alla bilder laddats för att visa första bilden
+            render();
+          }
+        };
+        images.push(img);
+      }
+
+      // --- NYCKELÄNDRINGAR HÄR FÖR LOOPNING ---
+
+      // Definiera hur många pixlar användaren måste scrolla för en hel loop av 40 frames.
+      // Du MÅSTE justera detta värde baserat på hur snabbt du vill att animationen ska spela!
+      // Ett HÖGRE värde = långsammare animation. Ett LÄGRE värde = snabbare animation.
+      // Experimentera med detta värde för att hitta den perfekta känslan.
+      const scrollDistancePerLoop = 2000; // Standardvärde: 2000 pixlar för en hel loop.
+
+      function render() {
+        // Avbryt om inte alla bilder är laddade än för att undvika fel
+        if (loadedImages < frameCount) {
+          // console.log("Inte alla bilder är laddade än..."); // Avkommentera för felsökning
+          return;
+        }
+
+        const scrollY = window.scrollY || window.pageYOffset;
+
+        // Beräkna det totala framsteget i animationen, baserat på scrollpositionen
+        // Detta kan bli ett stort tal om användaren scrollar mycket
+        const totalAnimationProgress = scrollY / scrollDistancePerLoop;
+
+        // Beräkna det "råa" frame-indexet (detta kan vara större än frameCount)
+        const rawFrameIndex = Math.floor(totalAnimationProgress * frameCount);
+
+        // Använd modulus-operatorn (%) för att få det loopade frame-indexet
+        // Detta säkerställer att indexet alltid är mellan 0 och frameCount - 1 (dvs. 0-39)
+        const loopedFrameIndex = rawFrameIndex % frameCount;
+
+        // Hämta den aktuella bilden baserat på det loopade indexet
+        const img = images[loopedFrameIndex];
+
+        // Rensa canvas och rita den nya bilden
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        // Använd drawImage för att fylla hela canvasen med den aktuella bilden
+        context.drawImage(img, 0, 0, canvas.width, canvas.height);
+      }
+
+      // --- OPTIMERING FÖR PRESTANDA MED requestAnimationFrame ---
+      let ticking = false; // Flagga för att förhindra flera uppdateringar per frame
+
+      function handleScroll() {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            render();
+            ticking = false; // Återställ flaggan efter rendering
+          });
+          ticking = true; // Sätt flaggan för att indikera att en rendering är på gång
+        }
+      }
+
+      window.addEventListener("scroll", handleScroll);
+      window.addEventListener("resize", () => {
+        resizeCanvas();
+        // Rendera om direkt vid resize för att undvika en tom canvas
+        render();
+      });
+
+      // Initial anrop till render när sidan laddas, för att säkerställa att canvasen inte är tom
+      // Detta anropas också från img.onload när alla bilder har laddats.
       render();
     });
 
-    render();
-
-    // Extra: funktion för carousel-knappar (om du vill)
+    // Extra: funktion för carousel-knappar (din befintliga kod, oförändrad)
     let slideIndex = 0;
     const track = document.getElementById('carousel-track');
     const slides = track ? track.children : [];
