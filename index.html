@@ -9,46 +9,76 @@
     body {
       margin: 0;
       font-family: 'Helvetica Neue', sans-serif;
-      background-color: #f5f5f5;
+      background-color: #f5f5f5; /* Fallback om JS/Canvas inte laddar */
       color: #111;
       text-align: center;
       overflow-x: hidden;
+      /* Dölj scrollbar som standard, om canvas fyller hela fönstret.
+         Om innehållet blir för långt, kommer scrollbar att visas ändå. */
+      /* overflow-y: scroll; */
     }
 
-    /* Canvas bakgrund */
+    /* Canvas bakgrund: Hela sidan och under allt annat */
     #bg-canvas {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: -1;
-      pointer-events: none;
-      background: white; /* Se till att canvasen har en bakgrundsfärg om bilderna laddas långsamt */
+      z-index: -2; /* Under både den vita rutan och innehållet */
+      pointer-events: none; /* Klickar igenom till elementen under */
     }
 
-    /* Nytt: Vit ram som ligger över animationen men under innehållet */
-    #content-frame {
+    /* Vit ram över hela sidan, ovanför animationen, men bakom text/bilder */
+    #content-wrapper {
         position: absolute; /* Använd absolute för att kunna positionera den */
         top: 0;
-        left: 50%; /* Centrera horisontellt */
-        transform: translateX(-50%); /* Korrigera för centrering */
-        width: 90%; /* Matchar iframe's max-width, justera vid behov */
-        max-width: 560px; /* Matchar iframe-bredden */
-        min-height: 100vh; /* Se till att den täcker hela skärmen som minst */
+        left: 0;
+        width: 100%;
+        min-height: 100vh; /* Säkerställer att den täcker hela skärmen som minst */
         background-color: rgba(255, 255, 255, 0.9); /* Vit färg med lite transparens */
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* En liten skugga för att den ska synas */
-        z-index: 0; /* Mellan animation (-1) och innehåll (1) */
-        padding-top: 1px; /* För att säkerställa att content-ramen har höjd även om toppen är 0 */
-        padding-bottom: 1px; /* För att säkerställa att content-ramen har höjd även om toppen är 0 */
+        z-index: -1; /* Mellan animation (-2) och innehåll (0/1) */
+        /* Lägger till padding för att ge utrymme från kanterna, speciellt för rubriken */
+        padding-top: 50px; /* Ge plats för rubriken högst upp */
+        padding-bottom: 2rem; /* Lite padding i botten */
+        box-sizing: border-box; /* Inkludera padding i bredden */
     }
 
-    /* Z-index för att säkerställa att innehållet ligger ovanpå ramen */
-    header, section, .footer {
-        position: relative;
-        z-index: 1;
+    /* CSS för att få intro-gifen att fylla hela bakgrunden */
+    .intro-gif {
+        position: fixed; /* Fixerad så den ligger bakom allt */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Fyller hela utrymmet, beskär om nödvändigt */
+        z-index: -3; /* Lägst z-index, bakom canvasanimationen */
+        opacity: 1; /* Synlig som bakgrund */
+        pointer-events: none; /* Klickar igenom */
     }
 
+    /* Rubriken "ville FERMENT" i övre vänstra hörnet */
+    .no-border-heading {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 2rem; /* Mindre fontstorlek */
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      line-height: 1; /* Justera linjehöjd för bättre passform */
+      text-transform: none;
+      color: #111; /* Svart färg */
+      position: fixed; /* Fixerad position i förhållande till viewport */
+      top: 20px; /* Avstånd från toppen */
+      left: 20px; /* Avstånd från vänster */
+      z-index: 10; /* Högt z-index så den alltid syns */
+      padding: 5px 10px; /* Lite padding för att ge luft */
+      background-color: rgba(255, 255, 255, 0.8); /* Lätt genomskinlig bakgrund */
+      border-radius: 5px; /* Rundade hörn */
+    }
+
+    /* Rubriken "DESIGN, ART, MUSIC, VIDEO" tas bort */
+    header p {
+      display: none; /* Döljer raden */
+    }
 
     .custom-heading {
       font-family: 'Zen Dots', sans-serif;
@@ -61,60 +91,18 @@
       text-transform: uppercase;
     }
 
-    .no-border-heading {
-      /* Uppdaterad font för "ville FERMENT" */
-      font-family: 'Libre Baskerville', serif;
-      font-size: 3.5rem;
-      font-weight: bold;
-      letter-spacing: 0.05em; /* Justera vid behov för Baskerville */
-      line-height: 0.8;
-      /* Borttagen display: inline-block; för att kunna placera fritt */
-      margin-bottom: 1rem;
-      text-transform: none;
-      position: absolute; /* Nytt: för att kunna placera den relativt till headern */
-      color: #111; /* Se till att färgen är tydlig */
-      text-align: left; /* Texten ska vara vänsterställd */
-    }
-
     header {
-      padding: 2rem;
-      position: relative; /* Viktigt för att kunna positionera h1 inuti */
-      min-height: 90vh; /* Se till att headern har tillräcklig höjd */
-      display: flex; /* Använd flexbox för att centrera intro-gif */
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      padding: 0; /* Tar bort all padding från headern */
+      min-height: auto; /* Återställer min-höjd */
+      position: relative; /* För att z-index ska fungera korrekt för barn */
+      z-index: 1; /* Ovanpå den vita rutan */
+      display: block; /* Tar bort flexbox centrering */
     }
 
-    .intro-gif {
-      width: 100%;
-      max-height: 90vh;
-      object-fit: contain;
+    .section-links {
+        margin-top: 20vh; /* Skapa utrymme under rubriken/intro-gif:en */
+        margin-bottom: 2rem;
     }
-
-    /* Anpassning för att placera rubriken i övre vänstra hörnet av intro-gif:en */
-    header .no-border-heading {
-        top: 50%; /* Centrera vertikalt i förhållande till GIF */
-        left: 50%; /* Centrera horisontellt i förhållande till GIF */
-        transform: translate(-50%, -50%); /* Flytta tillbaka halva bredden/höjden */
-        white-space: nowrap; /* Förhindrar radbrytningar om texten blir lång */
-        padding: 0; /* Nollställ padding */
-        margin: 0; /* Nollställ margin */
-        text-align: left; /* Återställ textjustering */
-    }
-
-    /* Media query för att justera positionen när skärmen blir mindre */
-    @media (max-width: 768px) {
-        header .no-border-heading {
-            font-size: 2.5rem; /* Mindre fontstorlek på mindre skärmar */
-        }
-    }
-    @media (max-width: 500px) {
-        header .no-border-heading {
-            font-size: 1.8rem; /* Ännu mindre på små skärmar */
-        }
-    }
-
 
     .section-links a {
       display: inline-block;
@@ -134,16 +122,22 @@
     }
 
     .project {
-      margin: 3rem 0;
+      margin: 3rem auto; /* Centrera projekten */
+      max-width: 800px; /* Begränsa bredden för läsbarhet */
+      padding: 1rem;
     }
 
     .project img {
-      width: 420px;
+      width: 100%; /* Gör bilder responsiva */
+      max-width: 420px; /* Maxbredd som tidigare */
       margin: 1rem auto;
+      display: block; /* Centrera blockelement */
     }
 
     iframe {
-      max-width: 90%;
+      max-width: 100%; /* Responsiv iframe */
+      width: 560px; /* Standardbredd, kommer att skalas ner */
+      height: 315px; /* Standardhöjd */
     }
 
     .footer {
@@ -151,10 +145,12 @@
       padding: 2rem;
       background-color: #222;
       color: #fff;
+      z-index: 1; /* Ovanpå den vita rutan */
     }
 
     .gallery img {
-      max-width: 600px;
+      max-width: 100%; /* Responsiv galleribild */
+      height: auto;
       margin-top: 1rem;
     }
 
@@ -197,88 +193,112 @@
     a {
       color: inherit;
     }
+
+    /* Media queries för responsiv design */
+    @media (max-width: 768px) {
+        .no-border-heading {
+            font-size: 1.5rem; /* Mindre fontstorlek på mindre skärmar */
+            top: 10px;
+            left: 10px;
+        }
+        .custom-heading {
+            font-size: 2rem;
+        }
+    }
+    @media (max-width: 500px) {
+        .no-border-heading {
+            font-size: 1.2rem;
+        }
+        .custom-heading {
+            font-size: 1.5rem;
+        }
+        .section-links a {
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem;
+        }
+    }
   </style>
 </head>
 <body>
 
+  <img class="intro-gif" src="GIF hemsida.gif" alt="Ville FERMENT intro" />
+
   <canvas id="bg-canvas"></canvas>
 
-  <div id="content-frame"></div>
-
-  <header>
-    <img class="intro-gif" src="GIF hemsida.gif" alt="Ville FERMENT intro" />
-    <h1 class="no-border-heading">ville FERMENT</h1>
-    <p>DESIGN, ART, MUSIC, VIDEO</p>
-    <div class="section-links">
-      <a href="#audio">AUDIO</a>
-      <a href="#visual">VISUAL</a>
-    </div>
-  </header>
-
-  <section id="audio">
-    <h2 class="custom-heading">Audio</h2>
-    <div class="project">
-      <h3>EUKARYA (2025)</h3>
-      <p>Artist, songwriter, producer & graphic design – ville FERMENT</p>
-      <div style="text-align:center;">
-        <img src="ALBUM COVER EUK.jpg" alt="EUKARYA album cover" style="display:block; margin: 0 auto; max-width: 325px;" />
-        <a href="https://open.spotify.com/album/1KAtw2uYgNiH0zGs1L31DL?si=pfCcUDqjQ8Gdtzb6Jx1rpg" target="_blank" style="display:block; margin-top: 0.5rem;">Listen on Spotify</a>
+  <div id="content-wrapper">
+    <header>
+      <p>DESIGN, ART, MUSIC, VIDEO</p>
+      <div class="section-links">
+        <a href="#audio">AUDIO</a>
+        <a href="#visual">VISUAL</a>
       </div>
-    </div>
-    <div class="project">
-      <h3>FAAW (2024)</h3>
-      <p>Artist, songwriter, producer & graphic design – ville FERMENT</p>
-      <div style="text-align:center;">
-        <img src="ALBUMCOVER FAAW kopiera.jpg" alt="FAAW album cover" style="display:block; margin: 0 auto; max-width: 325px;" />
-        <a href="https://open.spotify.com/album/24eoeFe7fDuIraRPceMVWO?si=fwmaBwBeRnqo7S2fS4CLDg" target="_blank" style="display:block; margin-top: 0.5rem;">Listen on Spotify</a>
-      </div>
-    </div>
-  </section>
+    </header>
 
-  <section id="visual">
-    <h2 class="custom-heading">Visual</h2>
-    <div class="project">
-      <h3>Video Year Visualizer (2025)</h3>
-      <p>Filmed and edited by ville FERMENT</p>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/CmVLalLLPj0" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
-    </div>
-
-    <div class="project">
-      <h3>A conversation with ChatGPT (2025)</h3>
-      <p>A project exploring the diffrence between AI and human as artists</p>
-      <div class="carousel">
-        <button class="carousel-btn prev" onclick="plusSlides(-1)">❮</button>
-        <div class="carousel-track" id="carousel-track">
-          <img src="ai-page-1.png" class="carousel-slide" alt="AI page 1" />
-          <img src="ai-page-2.png" class="carousel-slide" alt="AI page 2" />
-          <img src="ai-page-3.png" class="carousel-slide" alt="AI page 3" />
-          <img src="ai-page-4.png" class="carousel-slide" alt="AI page 4" />
+    <section id="audio">
+      <h2 class="custom-heading">Audio</h2>
+      <div class="project">
+        <h3>EUKARYA (2025)</h3>
+        <p>Artist, songwriter, producer & graphic design – ville FERMENT</p>
+        <div style="text-align:center;">
+          <img src="ALBUM COVER EUK.jpg" alt="EUKARYA album cover" style="display:block; margin: 0 auto; max-width: 325px;" />
+          <a href="https://open.spotify.com/album/1KAtw2uYgNiH0zGs1L31DL?si=pfCcUDqjQ8Gdtzb6Jx1rpg" target="_blank" style="display:block; margin-top: 0.5rem;">Listen on Spotify</a>
         </div>
-        <button class="carousel-btn next" onclick="plusSlides(1)">❯</button>
       </div>
-    </div>
-
-    <div class="project">
-      <h3>Graphic Design – FRVR (2024)</h3>
-      <p>Artwork for Daouda's single "FRVR"</p>
-      <div class="gallery">
-        <img src="FRVR cover.png" alt="FRVR Cover by ville FERMENT" />
-        <p><em>Graphic design by ville FERMENT</em></p>
+      <div class="project">
+        <h3>FAAW (2024)</h3>
+        <p>Artist, songwriter, producer & graphic design – ville FERMENT</p>
+        <div style="text-align:center;">
+          <img src="ALBUMCOVER FAAW kopiera.jpg" alt="FAAW album cover" style="display:block; margin: 0 auto; max-width: 325px;" />
+          <a href="https://open.spotify.com/album/24eoeFe7fDuIraRPceMVWO?si=fwmaBwBeRnqo7S2fS4CLDg" target="_blank" style="display:block; margin-top: 0.5rem;">Listen on Spotify</a>
+        </div>
       </div>
-      <a href="https://open.spotify.com/track/1R52wxxPBP4pIOntaf00Nf?si=249f594167e849a0" target="_blank">Listen on Spotify</a>
-    </div>
-  </section>
+    </section>
 
-  <div class="footer">
-    <h3>Contact</h3>
-    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">
-      Email: <a href="mailto:villeferment@gmail.com" style="color: #fff; text-decoration: underline;">villeferment@gmail.com</a>
-    </p>
-    <p style="font-size: 1.1rem;">
-      <a href="https://www.instagram.com/villeferment/" target="_blank" style="color: #fff; margin-right: 1rem;">Instagram</a>
-      <a href="https://www.tiktok.com/@villeferment" target="_blank" style="color: #fff;">TikTok</a>
-    </p>
-  </div>
+    <section id="visual">
+      <h2 class="custom-heading">Visual</h2>
+      <div class="project">
+        <h3>Video Year Visualizer (2025)</h3>
+        <p>Filmed and edited by ville FERMENT</p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/CmVLalLLPj0" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+      </div>
+
+      <div class="project">
+        <h3>A conversation with ChatGPT (2025)</h3>
+        <p>A project exploring the diffrence between AI and human as artists</p>
+        <div class="carousel">
+          <button class="carousel-btn prev" onclick="plusSlides(-1)">❮</button>
+          <div class="carousel-track" id="carousel-track">
+            <img src="ai-page-1.png" class="carousel-slide" alt="AI page 1" />
+            <img src="ai-page-2.png" class="carousel-slide" alt="AI page 2" />
+            <img src="ai-page-3.png" class="carousel-slide" alt="AI page 3" />
+            <img src="ai-page-4.png" class="carousel-slide" alt="AI page 4" />
+          </div>
+          <button class="carousel-btn next" onclick="plusSlides(1)">❯</button>
+        </div>
+      </div>
+
+      <div class="project">
+        <h3>Graphic Design – FRVR (2024)</h3>
+        <p>Artwork for Daouda's single "FRVR"</p>
+        <div class="gallery">
+          <img src="FRVR cover.png" alt="FRVR Cover by ville FERMENT" />
+          <p><em>Graphic design by ville FERMENT</em></p>
+        </div>
+        <a href="https://open.spotify.com/track/1R52wxxPBP4pIOntaf00Nf?si=249f594167e849a0" target="_blank">Listen on Spotify</a>
+      </div>
+    </section>
+
+    <div class="footer">
+      <h3>Contact</h3>
+      <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">
+        Email: <a href="mailto:villeferment@gmail.com" style="color: #fff; text-decoration: underline;">villeferment@gmail.com</a>
+      </p>
+      <p style="font-size: 1.1rem;">
+        <a href="https://www.instagram.com/villeferment/" target="_blank" style="color: #fff; margin-right: 1rem;">Instagram</a>
+        <a href="https://www.tiktok.com/@villeferment" target="_blank" style="color: #fff;">TikTok</a>
+      </p>
+    </div>
+  </div> <h1 class="no-border-heading">ville FERMENT</h1>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -296,7 +316,6 @@
       let loadedImages = 0;
 
       function currentFrame(index) {
-        // Ser till att bildsökvägen är korrekt för dina numrerade filer
         return `frames/${String(index + 1).padStart(4, "0")}.png`;
       }
 
@@ -312,9 +331,7 @@
         images.push(img);
       }
 
-      // Definiera hur många pixlar användaren måste scrolla för en hel loop av 40 frames.
-      // Du MÅSTE justera detta värde baserat på hur snabbt du vill att animationen ska spela!
-      const scrollDistancePerLoop = 2000; // Standardvärde: 2000 pixlar för en hel loop.
+      const scrollDistancePerLoop = 2000;
 
       function render() {
         if (loadedImages < frameCount) {
@@ -351,7 +368,6 @@
       render();
     });
 
-    // Extra: funktion för carousel-knappar (din befintliga kod, oförändrad)
     let slideIndex = 0;
     const track = document.getElementById('carousel-track');
     const slides = track ? track.children : [];
