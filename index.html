@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ville FERMENT</title>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Zen+Dots&display=swap" rel="stylesheet" />
   <style>
     body {
       margin: 0;
@@ -27,6 +27,29 @@
       background: white; /* Se till att canvasen har en bakgrundsfärg om bilderna laddas långsamt */
     }
 
+    /* Nytt: Vit ram som ligger över animationen men under innehållet */
+    #content-frame {
+        position: absolute; /* Använd absolute för att kunna positionera den */
+        top: 0;
+        left: 50%; /* Centrera horisontellt */
+        transform: translateX(-50%); /* Korrigera för centrering */
+        width: 90%; /* Matchar iframe's max-width, justera vid behov */
+        max-width: 560px; /* Matchar iframe-bredden */
+        min-height: 100vh; /* Se till att den täcker hela skärmen som minst */
+        background-color: rgba(255, 255, 255, 0.9); /* Vit färg med lite transparens */
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* En liten skugga för att den ska synas */
+        z-index: 0; /* Mellan animation (-1) och innehåll (1) */
+        padding-top: 1px; /* För att säkerställa att content-ramen har höjd även om toppen är 0 */
+        padding-bottom: 1px; /* För att säkerställa att content-ramen har höjd även om toppen är 0 */
+    }
+
+    /* Z-index för att säkerställa att innehållet ligger ovanpå ramen */
+    header, section, .footer {
+        position: relative;
+        z-index: 1;
+    }
+
+
     .custom-heading {
       font-family: 'Zen Dots', sans-serif;
       font-size: 2.8rem;
@@ -39,18 +62,28 @@
     }
 
     .no-border-heading {
-      font-family: 'Zen Dots', sans-serif;
+      /* Uppdaterad font för "ville FERMENT" */
+      font-family: 'Libre Baskerville', serif;
       font-size: 3.5rem;
       font-weight: bold;
-      letter-spacing: 0.3em;
+      letter-spacing: 0.05em; /* Justera vid behov för Baskerville */
       line-height: 0.8;
-      display: inline-block;
+      /* Borttagen display: inline-block; för att kunna placera fritt */
       margin-bottom: 1rem;
       text-transform: none;
+      position: absolute; /* Nytt: för att kunna placera den relativt till headern */
+      color: #111; /* Se till att färgen är tydlig */
+      text-align: left; /* Texten ska vara vänsterställd */
     }
 
     header {
       padding: 2rem;
+      position: relative; /* Viktigt för att kunna positionera h1 inuti */
+      min-height: 90vh; /* Se till att headern har tillräcklig höjd */
+      display: flex; /* Använd flexbox för att centrera intro-gif */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .intro-gif {
@@ -58,6 +91,30 @@
       max-height: 90vh;
       object-fit: contain;
     }
+
+    /* Anpassning för att placera rubriken i övre vänstra hörnet av intro-gif:en */
+    header .no-border-heading {
+        top: 50%; /* Centrera vertikalt i förhållande till GIF */
+        left: 50%; /* Centrera horisontellt i förhållande till GIF */
+        transform: translate(-50%, -50%); /* Flytta tillbaka halva bredden/höjden */
+        white-space: nowrap; /* Förhindrar radbrytningar om texten blir lång */
+        padding: 0; /* Nollställ padding */
+        margin: 0; /* Nollställ margin */
+        text-align: left; /* Återställ textjustering */
+    }
+
+    /* Media query för att justera positionen när skärmen blir mindre */
+    @media (max-width: 768px) {
+        header .no-border-heading {
+            font-size: 2.5rem; /* Mindre fontstorlek på mindre skärmar */
+        }
+    }
+    @media (max-width: 500px) {
+        header .no-border-heading {
+            font-size: 1.8rem; /* Ännu mindre på små skärmar */
+        }
+    }
+
 
     .section-links a {
       display: inline-block;
@@ -145,6 +202,8 @@
 <body>
 
   <canvas id="bg-canvas"></canvas>
+
+  <div id="content-frame"></div>
 
   <header>
     <img class="intro-gif" src="GIF hemsida.gif" alt="Ville FERMENT intro" />
@@ -238,7 +297,6 @@
 
       function currentFrame(index) {
         // Ser till att bildsökvägen är korrekt för dina numrerade filer
-        // Exempel: frames/0001.png, frames/0002.png, ..., frames/0040.png
         return `frames/${String(index + 1).padStart(4, "0")}.png`;
       }
 
@@ -248,72 +306,48 @@
         img.onload = () => {
           loadedImages++;
           if (loadedImages === frameCount) {
-            // Anropa render efter att alla bilder laddats för att visa första bilden
             render();
           }
         };
         images.push(img);
       }
 
-      // --- NYCKELÄNDRINGAR HÄR FÖR LOOPNING ---
-
       // Definiera hur många pixlar användaren måste scrolla för en hel loop av 40 frames.
       // Du MÅSTE justera detta värde baserat på hur snabbt du vill att animationen ska spela!
-      // Ett HÖGRE värde = långsammare animation. Ett LÄGRE värde = snabbare animation.
-      // Experimentera med detta värde för att hitta den perfekta känslan.
       const scrollDistancePerLoop = 2000; // Standardvärde: 2000 pixlar för en hel loop.
 
       function render() {
-        // Avbryt om inte alla bilder är laddade än för att undvika fel
         if (loadedImages < frameCount) {
-          // console.log("Inte alla bilder är laddade än..."); // Avkommentera för felsökning
           return;
         }
 
         const scrollY = window.scrollY || window.pageYOffset;
-
-        // Beräkna det totala framsteget i animationen, baserat på scrollpositionen
-        // Detta kan bli ett stort tal om användaren scrollar mycket
         const totalAnimationProgress = scrollY / scrollDistancePerLoop;
-
-        // Beräkna det "råa" frame-indexet (detta kan vara större än frameCount)
         const rawFrameIndex = Math.floor(totalAnimationProgress * frameCount);
-
-        // Använd modulus-operatorn (%) för att få det loopade frame-indexet
-        // Detta säkerställer att indexet alltid är mellan 0 och frameCount - 1 (dvs. 0-39)
         const loopedFrameIndex = rawFrameIndex % frameCount;
-
-        // Hämta den aktuella bilden baserat på det loopade indexet
         const img = images[loopedFrameIndex];
 
-        // Rensa canvas och rita den nya bilden
         context.clearRect(0, 0, canvas.width, canvas.height);
-        // Använd drawImage för att fylla hela canvasen med den aktuella bilden
         context.drawImage(img, 0, 0, canvas.width, canvas.height);
       }
 
-      // --- OPTIMERING FÖR PRESTANDA MED requestAnimationFrame ---
-      let ticking = false; // Flagga för att förhindra flera uppdateringar per frame
-
+      let ticking = false;
       function handleScroll() {
         if (!ticking) {
           window.requestAnimationFrame(() => {
             render();
-            ticking = false; // Återställ flaggan efter rendering
+            ticking = false;
           });
-          ticking = true; // Sätt flaggan för att indikera att en rendering är på gång
+          ticking = true;
         }
       }
 
       window.addEventListener("scroll", handleScroll);
       window.addEventListener("resize", () => {
         resizeCanvas();
-        // Rendera om direkt vid resize för att undvika en tom canvas
         render();
       });
 
-      // Initial anrop till render när sidan laddas, för att säkerställa att canvasen inte är tom
-      // Detta anropas också från img.onload när alla bilder har laddats.
       render();
     });
 
