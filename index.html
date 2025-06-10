@@ -2,135 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ville FERMENT</title>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet" />
   <style>
+    /* Ditt befintliga CSS här... */
     body {
       margin: 0;
       font-family: 'Helvetica Neue', sans-serif;
       background-color: #f5f5f5;
       color: #111;
       text-align: center;
+      overflow-x: hidden;
     }
 
-    .custom-heading {
-      font-family: 'Zen Dots', sans-serif;
-      font-size: 2.8rem;
-      font-weight: bold;
-      letter-spacing: 0.3em;
-      line-height: 0.8;
-      display: inline-block;
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-    }
-
-    .no-border-heading {
-      font-family: 'Zen Dots', sans-serif;
-      font-size: 3.5rem;
-      font-weight: bold;
-      letter-spacing: 0.3em;
-      line-height: 0.8;
-      display: inline-block;
-      margin-bottom: 1rem;
-      text-transform: none;
-    }
-
-    header {
-      padding: 2rem;
-    }
-
-    .intro-gif {
-      width: 100%;
-      max-height: 90vh;
-      object-fit: contain;
-    }
-
-    .section-links a {
-      display: inline-block;
-      margin: 1rem;
-      padding: 1rem 2rem;
-      background: transparent;
-      color: #111;
-      text-decoration: none;
-      border: 2px solid #111;
-      font-weight: bold;
-      transition: all 0.3s ease;
-    }
-
-    .section-links a:hover {
-      background-color: #111;
-      color: #fff;
-    }
-
-    .project {
-      margin: 3rem 0;
-    }
-
-    .project img {
-      width: 420px;
-      margin: 1rem auto;
-    }
-
-    iframe {
-      max-width: 90%;
-    }
-
-    .footer {
-      margin-top: 4rem;
-      padding: 2rem;
-      background-color: #222;
-      color: #fff;
-    }
-
-    .gallery img {
-      max-width: 600px;
-      margin-top: 1rem;
-    }
-
-    .carousel {
-      position: relative;
-      width: 90%;
-      margin: 2rem auto;
-      overflow: hidden;
-    }
-
-    .carousel-track {
-      display: flex;
-      transition: transform 0.5s ease-in-out;
-    }
-
-    .carousel-slide {
-      min-width: 100%;
-      max-width: 100%;
-      height: auto;
-      max-height: 650px;
-      object-fit: contain;
-    }
-
-    .carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: rgba(0, 0, 0, 0.6);
-      color: white;
-      border: none;
-      padding: 1rem;
-      font-size: 2rem;
-      cursor: pointer;
-      z-index: 2;
-    }
-
-    .carousel-btn.prev { left: 0; }
-    .carousel-btn.next { right: 0; }
-
-    a {
-      color: inherit;
+    /* Canvas bakgrund */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+      background: black;
     }
   </style>
 </head>
 <body>
 
+  <!-- Lägg till canvas för animation -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Resten av din HTML, t.ex: -->
   <header>
     <img class="intro-gif" src="GIF hemsida.gif" alt="Ville FERMENT intro" />
     <h1 class="no-border-heading">ville FERMENT</h1>
@@ -141,127 +45,90 @@
     </div>
   </header>
 
- <section id="audio">
-  <h2 class="custom-heading">Audio</h2>
-  <div class="project">
-    <h3>EUKARYA (2025)</h3>
-    <p>Artist, songwriter, producer & graphic design – ville FERMENT</p>
-    <div style="text-align:center;">
-      <img src="ALBUM COVER EUK.jpg" alt="EUKARYA album cover" style="display:block; margin: 0 auto; max-width: 325px;"/>
-      <a href="https://open.spotify.com/album/1KAtw2uYgNiH0zGs1L31DL?si=pfCcUDqjQ8Gdtzb6Jx1rpg" target="_blank" style="display:block; margin-top: 0.5rem;">Listen on Spotify</a>
-    </div>
-  </div>
-  <div class="project">
-    <h3>FAAW (2024)</h3>
-    <p>Artist, songwriter, producer & graphic design – ville FERMENT</p>
-    <div style="text-align:center;">
-      <img src="ALBUMCOVER FAAW kopiera.jpg" alt="FAAW album cover" style="display:block; margin: 0 auto; max-width: 325px;"/>
-      <a href="https://open.spotify.com/album/24eoeFe7fDuIraRPceMVWO?si=fwmaBwBeRnqo7S2fS4CLDg" target="_blank" style="display:block; margin-top: 0.5rem;">Listen on Spotify</a>
-    </div>
-
-
+  <!-- Din audio sektion -->
+  <section id="audio">
+    <h2 class="custom-heading">Audio</h2>
+    <!-- ... -->
   </section>
 
+  <!-- Din visual sektion -->
   <section id="visual">
     <h2 class="custom-heading">Visual</h2>
-      <div class="project">
-      <h3>Video Year Visualizer (2025)</h3>
-      <p>Filmed and edited by ville FERMENT</p>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/CmVLalLLPj0" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
-    </div>
-    
-    <div class="project">
-      <h3>A conversation with ChatGPT (2025)</h3>
-      <p>A project exploring the diffrence between AI and human as artists</p>
-      <div class="carousel">
-        <button class="carousel-btn prev" onclick="plusSlides(-1)">&#10094;</button>
-        <div class="carousel-track" id="carousel-track">
-          <img src="ai-page-1.png" class="carousel-slide" alt="AI page 1">
-          <img src="ai-page-2.png" class="carousel-slide" alt="AI page 2">
-          <img src="ai-page-3.png" class="carousel-slide" alt="AI page 3">
-          <img src="ai-page-4.png" class="carousel-slide" alt="AI page 4">
-        </div>
-        <button class="carousel-btn next" onclick="plusSlides(1)">&#10095;</button>
-      </div>
-    </div>
-
-    <div class="project">
-      <h3>Graphic Design – FRVR (2024)</h3>
-      <p>Artwork for Daouda's single "FRVR"</p>
-      <div class="gallery">
-        <img src="FRVR cover.png" alt="FRVR Cover by ville FERMENT" />
-        <p><em>Graphic design by ville FERMENT</em></p>
-      </div>
-      <a href="https://open.spotify.com/track/1R52wxxPBP4pIOntaf00Nf?si=249f594167e849a0" target="_blank">Listen on Spotify</a>
-    </div>
+    <!-- ... -->
   </section>
 
-  <div class="footer">
-    <h3>Contact</h3>
-    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">
-      Email: <a href="mailto:villeferment@gmail.com" style="color: #fff; text-decoration: underline;">villeferment@gmail.com</a>
-    </p>
-    <p style="font-size: 1.1rem;">
-      <a href="https://www.instagram.com/villeferment/" target="_blank" style="color: #fff; margin-right: 1rem;">Instagram</a>
-      <a href="https://www.tiktok.com/@villeferment" target="_blank" style="color: #fff;">TikTok</a>
-    </p>
-  </div>
+  <script>
+    const canvas = document.getElementById("bg-canvas");
+    const context = canvas.getContext("2d");
 
-<script>
-const canvas = document.getElementById("bg-canvas");
-const context = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+    // Sätt rätt canvas storlek
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
 
-const frameCount = 40;
-const currentFrame = index => `frames/${String(index + 1).padStart(4, '0')}.png`;
+    // Bildframes
+    const frameCount = 40;
+    const images = [];
+    let loadedImages = 0;
 
-const images = [];
-let loadedImages = 0;
-let scrollStart = 0;
+    function currentFrame(index) {
+      return `frames/${String(index + 1).padStart(4, '0')}.png`;
+    }
 
-for (let i = 0; i < frameCount; i++) {
-  const img = new Image();
-  img.src = currentFrame(i);
-  img.onload = () => loadedImages++;
-  images.push(img);
-}
+    for (let i = 0; i < frameCount; i++) {
+      const img = new Image();
+      img.src = currentFrame(i);
+      img.onload = () => {
+        loadedImages++;
+        // När alla bilder laddats kan vi rendera första frame
+        if (loadedImages === frameCount) {
+          render();
+        }
+      };
+      images.push(img);
+    }
 
-function getOffsetTop(elem) {
-  let offsetTop = 0;
-  while (elem) {
-    offsetTop += elem.offsetTop;
-    elem = elem.offsetParent;
-  }
-  return offsetTop;
-}
+    // Hämta offset för audio-sektionen
+    const audioSection = document.getElementById("audio");
 
-const audioSection = document.getElementById("audio");
-const audioOffset = getOffsetTop(audioSection);
+    function getOffsetTop(elem) {
+      let offsetTop = 0;
+      while (elem) {
+        offsetTop += elem.offsetTop;
+        elem = elem.offsetParent;
+      }
+      return offsetTop;
+    }
 
-function render() {
-  if (loadedImages < frameCount) return;
+    function render() {
+      if (loadedImages < frameCount) return; // Vänta på att alla bilder är laddade
 
-  const scrollY = window.scrollY;
-  const maxScroll = document.body.scrollHeight - window.innerHeight;
-  let scrollRel = (scrollY - audioOffset) / window.innerHeight;
-  scrollRel = Math.max(0, scrollRel);
+      const scrollY = window.scrollY || window.pageYOffset;
+      const audioOffset = getOffsetTop(audioSection);
+      const windowHeight = window.innerHeight;
 
-  let frameIndex = Math.floor((scrollRel * frameCount)) % frameCount;
-  const img = images[frameIndex];
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  context.drawImage(img, 0, 0, canvas.width, canvas.height);
-}
+      let scrollRel = (scrollY - audioOffset) / windowHeight;
+      scrollRel = Math.max(0, scrollRel);
+      scrollRel = Math.min(1, scrollRel); // Begränsa till max 1
 
-window.addEventListener("scroll", render);
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  render();
-});
+      const frameIndex = Math.floor(scrollRel * (frameCount - 1));
+      const img = images[frameIndex];
 
-render();
-</script>
+      // Rensa canvas och rita bild i canvas storlek
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(img, 0, 0, canvas.width, canvas.height);
+    }
+
+    window.addEventListener("scroll", render);
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+      render();
+    });
+
+    // Rendera initialt
+    render();
+  </script>
 </body>
 </html>
-
