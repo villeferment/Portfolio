@@ -88,10 +88,6 @@
       position: relative; /* För att säkerställa att z-index fungerar */
       z-index: 2; /* Ligger ovanför vita rutan och animationen */
       color: #111; /* Svart text som standard */
-      /* Du kanske vill lägga till en bakgrundsfärg här för att få dem att sticka ut mot animationen */
-      /* background-color: rgba(255, 255, 255, 0.7); */
-      /* padding: 10px 20px; */
-      /* border-radius: 5px; */
     }
 
     header {
@@ -122,7 +118,6 @@
       border: 2px solid #111;
       font-weight: bold;
       transition: all 0.3s ease;
-      /* Lägg till bakgrundsfärg så de syns bättre över GIF:en */
       background-color: rgba(255, 255, 255, 0.7);
     }
 
@@ -133,7 +128,7 @@
 
     /* Projekt och footer behöver nu flyttas in i den vita rutan */
     .project {
-      margin: 3rem 0; /* Inga auto-margins här, då parent centrerar */
+      margin: 3rem 0;
     }
 
     .project img {
@@ -162,11 +157,13 @@
       margin-top: 1rem;
     }
 
+    /* Karusell för bilder och video */
     .carousel {
       position: relative;
       width: 90%; /* Justera bredd för karusellen */
       margin: 2rem auto;
       overflow: hidden;
+      max-height: 750px; /* Begränsa karusellens höjd */
     }
 
     .carousel-track {
@@ -178,8 +175,30 @@
       min-width: 100%;
       max-width: 100%;
       height: auto;
-      max-height: 650px;
-      object-fit: contain;
+      display: flex; /* Använd flexbox för att centrera innehållet i sliden */
+      flex-direction: column; /* Innehållet staplas vertikalt */
+      justify-content: center; /* Centrera vertikalt */
+      align-items: center; /* Centrera horisontellt */
+      text-align: center;
+      padding: 1rem; /* Lite padding runt innehållet */
+      box-sizing: border-box; /* Inkludera padding i bredden */
+    }
+
+    .carousel-slide img,
+    .carousel-slide video {
+      width: 100%; /* Fyller sliden */
+      height: auto; /* Bibehåll proportioner */
+      max-height: 600px; /* Maxhöjd för media i karusellen */
+      object-fit: contain; /* Passa in innehållet utan att beskära för mycket */
+      display: block; /* Centrera media */
+      margin: 0 auto 0.5rem auto; /* Marginal under media för rubrik */
+    }
+
+    .carousel-slide h4 {
+      margin-top: 0.5rem;
+      margin-bottom: 0;
+      font-size: 1.1rem;
+      color: #333;
     }
 
     .carousel-btn {
@@ -214,6 +233,9 @@
         }
         .section-links {
           bottom: 1rem; /* Mindre avstånd på små skärmar */
+        }
+        .carousel-slide h4 {
+            font-size: 1rem;
         }
     }
     @media (max-width: 500px) {
@@ -290,6 +312,37 @@
         </div>
       </div>
 
+      <div class="project">
+        <h3>Short Films Showcase (2025)</h3>
+        <p>A collection of short experimental films</p>
+        <div class="carousel" id="video-carousel">
+          <button class="carousel-btn prev" onclick="plusVideoSlides(-1)">❮</button>
+          <div class="carousel-track" id="video-carousel-track">
+            <div class="carousel-slide">
+              <video controls playsinline muted>
+                <source src="your-video-1.mp4" type="video/mp4">
+                Din webbläsare stöder inte video-taggen.
+              </video>
+              <h4>Urban Reflections</h4>
+            </div>
+            <div class="carousel-slide">
+              <video controls playsinline muted>
+                <source src="your-video-2.mp4" type="video/mp4">
+                Din webbläsare stöder inte video-taggen.
+              </video>
+              <h4>Forest Whispers</h4>
+            </div>
+            <div class="carousel-slide">
+              <video controls playsinline muted>
+                <source src="your-video-3.mp4" type="video/mp4">
+                Din webbläsare stöder inte video-taggen.
+              </video>
+              <h4>Digital Dreams</h4>
+            </div>
+            </div>
+          <button class="carousel-btn next" onclick="plusVideoSlides(1)">❯</button>
+        </div>
+      </div>
       <div class="project">
         <h3>Graphic Design – FRVR (2024)</h3>
         <p>Artwork for Daouda's single "FRVR"</p>
@@ -380,16 +433,41 @@
       render();
     });
 
-    let slideIndex = 0;
-    const track = document.getElementById('carousel-track');
-    const slides = track ? track.children : [];
+    // JavaScript för bildkarusellen (A conversation with ChatGPT)
+    let imageSlideIndex = 0;
+    const imageTrack = document.getElementById('carousel-track'); // Bildkarusellen
+    const imageSlides = imageTrack ? imageTrack.children : [];
 
     function plusSlides(n) {
-      if (!slides.length) return;
-      slideIndex += n;
-      if (slideIndex < 0) slideIndex = slides.length - 1;
-      if (slideIndex >= slides.length) slideIndex = 0;
-      track.style.transform = `translateX(-${slideIndex * 100}%)`;
+      if (!imageSlides.length) return;
+      imageSlideIndex += n;
+      if (imageSlideIndex < 0) imageSlideIndex = imageSlides.length - 1;
+      if (imageSlideIndex >= imageSlides.length) imageSlideIndex = 0;
+      imageTrack.style.transform = `translateX(-${imageSlideIndex * 100}%)`;
+    }
+
+    // NYTT JavaScript för videokarusellen
+    let videoSlideIndex = 0;
+    const videoTrack = document.getElementById('video-carousel-track'); // Videokarusellen
+    const videoSlides = videoTrack ? videoTrack.children : [];
+
+    function plusVideoSlides(n) {
+      if (!videoSlides.length) return;
+
+      // Pausa den aktuella videon innan vi byter slide
+      if (videoSlides[videoSlideIndex] && videoSlides[videoSlideIndex].querySelector('video')) {
+          videoSlides[videoSlideIndex].querySelector('video').pause();
+      }
+
+      videoSlideIndex += n;
+      if (videoSlideIndex < 0) videoSlideIndex = videoSlides.length - 1;
+      if (videoSlideIndex >= videoSlides.length) videoSlideIndex = 0;
+      videoTrack.style.transform = `translateX(-${videoSlideIndex * 100}%)`;
+
+      // Spela upp den nya videon automatiskt när den visas (valfritt)
+      // if (videoSlides[videoSlideIndex] && videoSlides[videoSlideIndex].querySelector('video')) {
+      //     videoSlides[videoSlideIndex].querySelector('video').play();
+      // }
     }
   </script>
 </body>
