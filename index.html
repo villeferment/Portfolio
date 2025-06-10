@@ -22,14 +22,14 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: -1; /* Ligger bakom content-wrapper */
+      z-index: -1; /* Ligger bakom content-wrapper-frame */
       pointer-events: none; /* Klickar igenom */
       background: white; /* Bör vara vit för att dölja animationen innan bilder laddat */
     }
 
-    /* Den nya vita rutan som ramar in innehållet */
+    /* Vit ram som nu börjar efter intro-GIF och knappar */
     .content-wrapper-frame {
-        position: relative; /* För att z-index ska fungera korrekt */
+        position: relative;
         z-index: 1; /* Ligger ovanför animationen */
         width: 90%; /* Responsiv bredd */
         max-width: 560px; /* Matchar iframe-bredden */
@@ -66,7 +66,7 @@
       height: 90vh; /* Fyller 90% av viewport-höjden */
       object-fit: cover; /* Fyller utrymmet, beskär vid behov */
       display: block; /* Tar bort extra utrymme under bilden */
-      /* Ingen position: fixed; eller z-index här, den flödar med sidan */
+      position: relative; /* Viktigt för att section-links ska kunna positioneras absolut relativt till den */
     }
 
     /* Döljer texten "DESIGN, ART, MUSIC, VIDEO" */
@@ -74,6 +74,7 @@
       display: none;
     }
 
+    /* Rubrikerna "Audio" och "Visual" (custom-heading) är nu utanför vita rutan */
     .custom-heading {
       font-family: 'Zen Dots', sans-serif;
       font-size: 2.8rem;
@@ -81,20 +82,34 @@
       letter-spacing: 0.3em;
       line-height: 0.8;
       display: inline-block;
+      margin-top: 4rem; /* Ge utrymme ovanför rubrikerna */
       margin-bottom: 1rem;
       text-transform: uppercase;
+      position: relative; /* För att säkerställa att z-index fungerar */
+      z-index: 2; /* Ligger ovanför vita rutan och animationen */
+      color: #111; /* Svart text som standard */
+      /* Du kanske vill lägga till en bakgrundsfärg här för att få dem att sticka ut mot animationen */
+      /* background-color: rgba(255, 255, 255, 0.7); */
+      /* padding: 10px 20px; */
+      /* border-radius: 5px; */
     }
 
     header {
       padding: 0; /* Tar bort all padding */
-      margin-bottom: 2rem; /* Lite utrymme efter GIF och rubriker */
+      margin-bottom: 0; /* Ingen marginal, då section-links positioneras absolut */
       position: relative; /* Viktigt för z-index på content-wrapper-frame */
       z-index: 1; /* Säkerställer att headern ligger över canvasen */
+      height: 90vh; /* Samma höjd som .intro-gif */
     }
 
+    /* Knapparna över intro-gifens nedre sida */
     .section-links {
-        margin-top: 2rem; /* Ger utrymme under rubrikerna i headern */
-        margin-bottom: 2rem;
+        position: absolute; /* Absolut positionering relativt till .intro-gif */
+        bottom: 2rem; /* Avstånd från botten av GIF-en */
+        left: 50%;
+        transform: translateX(-50%); /* Centrera horisontellt */
+        z-index: 2; /* Ligger ovanpå GIF-en */
+        width: 100%; /* Sätt en bredd */
     }
 
     .section-links a {
@@ -107,6 +122,8 @@
       border: 2px solid #111;
       font-weight: bold;
       transition: all 0.3s ease;
+      /* Lägg till bakgrundsfärg så de syns bättre över GIF:en */
+      background-color: rgba(255, 255, 255, 0.7);
     }
 
     .section-links a:hover {
@@ -114,6 +131,7 @@
       color: #fff;
     }
 
+    /* Projekt och footer behöver nu flyttas in i den vita rutan */
     .project {
       margin: 3rem 0; /* Inga auto-margins här, då parent centrerar */
     }
@@ -194,6 +212,9 @@
         .custom-heading {
             font-size: 2rem;
         }
+        .section-links {
+          bottom: 1rem; /* Mindre avstånd på små skärmar */
+        }
     }
     @media (max-width: 500px) {
         .no-border-heading {
@@ -215,19 +236,18 @@
 
   <h1 class="no-border-heading">ville FERMENT</h1>
 
-  <img class="intro-gif" src="GIF hemsida.gif" alt="Ville FERMENT intro" />
+  <header>
+    <img class="intro-gif" src="GIF hemsida.gif" alt="Ville FERMENT intro" />
+    <p>DESIGN, ART, MUSIC, VIDEO</p>
+    <div class="section-links">
+      <a href="#audio">AUDIO</a>
+      <a href="#visual">VISUAL</a>
+    </div>
+  </header>
 
-  <div class="content-wrapper-frame">
-    <header>
-      <p>DESIGN, ART, MUSIC, VIDEO</p>
-      <div class="section-links">
-        <a href="#audio">AUDIO</a>
-        <a href="#visual">VISUAL</a>
-      </div>
-    </header>
-
-    <section id="audio">
-      <h2 class="custom-heading">Audio</h2>
+  <section id="audio">
+    <h2 class="custom-heading">Audio</h2>
+    <div class="content-wrapper-frame">
       <div class="project">
         <h3>EUKARYA (2025)</h3>
         <p>Artist, songwriter, producer & graphic design – ville FERMENT</p>
@@ -244,10 +264,11 @@
           <a href="https://open.spotify.com/album/24eoeFe7fDuIraRPceMVWO?si=fwmaBwBeRnqo7S2fS4CLDg" target="_blank" style="display:block; margin-top: 0.5rem;">Listen on Spotify</a>
         </div>
       </div>
-    </section>
+    </div> </section>
 
-    <section id="visual">
-      <h2 class="custom-heading">Visual</h2>
+  <section id="visual">
+    <h2 class="custom-heading">Visual</h2>
+    <div class="content-wrapper-frame">
       <div class="project">
         <h3>Video Year Visualizer (2025)</h3>
         <p>Filmed and edited by ville FERMENT</p>
@@ -278,19 +299,20 @@
         </div>
         <a href="https://open.spotify.com/track/1R52wxxPBP4pIOntaf00Nf?si=249f594167e849a0" target="_blank">Listen on Spotify</a>
       </div>
-    </section>
+    </div> </section>
 
-    <div class="footer">
-      <h3>Contact</h3>
-      <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">
-        Email: <a href="mailto:villeferment@gmail.com" style="color: #fff; text-decoration: underline;">villeferment@gmail.com</a>
-      </p>
-      <p style="font-size: 1.1rem;">
-        <a href="https://www.instagram.com/villeferment/" target="_blank" style="color: #fff; margin-right: 1rem;">Instagram</a>
-        <a href="https://www.tiktok.com/@villeferment" target="_blank" style="color: #fff;">TikTok</a>
-      </p>
-    </div>
-  </div> <script>
+  <div class="footer">
+    <h3>Contact</h3>
+    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">
+      Email: <a href="mailto:villeferment@gmail.com" style="color: #fff; text-decoration: underline;">villeferment@gmail.com</a>
+    </p>
+    <p style="font-size: 1.1rem;">
+      <a href="https://www.instagram.com/villeferment/" target="_blank" style="color: #fff; margin-right: 1rem;">Instagram</a>
+      <a href="https://www.tiktok.com/@villeferment" target="_blank" style="color: #fff;">TikTok</a>
+    </p>
+  </div>
+
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
       const canvas = document.getElementById("bg-canvas");
       const context = canvas.getContext("2d");
@@ -321,7 +343,6 @@
         images.push(img);
       }
 
-      // Definiera hur många pixlar användaren måste scrolla för en hel loop av 40 frames.
       const scrollDistancePerLoop = 2000; // Justera detta värde efter din önskade hastighet
 
       function render() {
