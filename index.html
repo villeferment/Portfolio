@@ -207,32 +207,6 @@
     </p>
   </div>
 
-  <script>
-    let slideIndex = 0;
-    const track = document.getElementById('carousel-track');
-    const slides = document.querySelectorAll('.carousel-slide');
-
-    function plusSlides(n) {
-      slideIndex += n;
-      if (slideIndex < 0) slideIndex = slides.length - 1;
-      if (slideIndex >= slides.length) slideIndex = 0;
-      track.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
-    }
-  </script>
-
-<script>
-  let slideIndex = 0;
-  const track = document.querySelector('.carousel-track');
-  const slides = document.querySelectorAll('.carousel-slide');
-
-  function plusSlides(n) {
-    slideIndex += n;
-    if (slideIndex < 0) slideIndex = slides.length - 1;
-    if (slideIndex >= slides.length) slideIndex = 0;
-    track.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
-  }
-</script>
-   
 <script>
 const canvas = document.getElementById("bg-canvas");
 const context = canvas.getContext("2d");
@@ -290,3 +264,4 @@ render();
 </script>
 </body>
 </html>
+
