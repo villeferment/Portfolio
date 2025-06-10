@@ -9,63 +9,48 @@
     body {
       margin: 0;
       font-family: 'Helvetica Neue', sans-serif;
-      background-color: #f5f5f5; /* Fallback om JS/Canvas inte laddar */
+      background-color: #f5f5f5; /* Fallback färg */
       color: #111;
       text-align: center;
       overflow-x: hidden;
-      /* Dölj scrollbar som standard, om canvas fyller hela fönstret.
-         Om innehållet blir för långt, kommer scrollbar att visas ändå. */
-      /* overflow-y: scroll; */
     }
 
-    /* Canvas bakgrund: Hela sidan och under allt annat */
+    /* Canvas bakgrund: Täcker hela bakgrunden, under allt annat */
     #bg-canvas {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: -2; /* Under både den vita rutan och innehållet */
-      pointer-events: none; /* Klickar igenom till elementen under */
+      z-index: -1; /* Ligger bakom content-wrapper */
+      pointer-events: none; /* Klickar igenom */
+      background: white; /* Bör vara vit för att dölja animationen innan bilder laddat */
     }
 
-    /* Vit ram över hela sidan, ovanför animationen, men bakom text/bilder */
-    #content-wrapper {
-        position: absolute; /* Använd absolute för att kunna positionera den */
-        top: 0;
-        left: 0;
-        width: 100%;
-        min-height: 100vh; /* Säkerställer att den täcker hela skärmen som minst */
-        background-color: rgba(255, 255, 255, 0.9); /* Vit färg med lite transparens */
-        z-index: -1; /* Mellan animation (-2) och innehåll (0/1) */
-        /* Lägger till padding för att ge utrymme från kanterna, speciellt för rubriken */
-        padding-top: 50px; /* Ge plats för rubriken högst upp */
-        padding-bottom: 2rem; /* Lite padding i botten */
+    /* Den nya vita rutan som ramar in innehållet */
+    .content-wrapper-frame {
+        position: relative; /* För att z-index ska fungera korrekt */
+        z-index: 1; /* Ligger ovanför animationen */
+        width: 90%; /* Responsiv bredd */
+        max-width: 560px; /* Matchar iframe-bredden */
+        margin: 0 auto; /* Centrera rutan */
+        background-color: rgba(255, 255, 255, 0.9); /* Vit med transparens */
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05); /* Lätt skugga */
+        /* Extra padding för att ge luft åt innehållet inuti */
+        padding-top: 20px;
+        padding-bottom: 20px;
         box-sizing: border-box; /* Inkludera padding i bredden */
-    }
-
-    /* CSS för att få intro-gifen att fylla hela bakgrunden */
-    .intro-gif {
-        position: fixed; /* Fixerad så den ligger bakom allt */
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Fyller hela utrymmet, beskär om nödvändigt */
-        z-index: -3; /* Lägst z-index, bakom canvasanimationen */
-        opacity: 1; /* Synlig som bakgrund */
-        pointer-events: none; /* Klickar igenom */
     }
 
     /* Rubriken "ville FERMENT" i övre vänstra hörnet */
     .no-border-heading {
       font-family: 'Libre Baskerville', serif;
-      font-size: 2rem; /* Mindre fontstorlek */
+      font-size: 1.5rem; /* Mindre fontstorlek */
       font-weight: bold;
       letter-spacing: 0.05em;
-      line-height: 1; /* Justera linjehöjd för bättre passform */
+      line-height: 1;
       text-transform: none;
-      color: #111; /* Svart färg */
+      color: #111;
       position: fixed; /* Fixerad position i förhållande till viewport */
       top: 20px; /* Avstånd från toppen */
       left: 20px; /* Avstånd från vänster */
@@ -75,9 +60,18 @@
       border-radius: 5px; /* Rundade hörn */
     }
 
-    /* Rubriken "DESIGN, ART, MUSIC, VIDEO" tas bort */
+    /* Intro GIF: fyller övre delen av skärmen utan ram */
+    .intro-gif {
+      width: 100%;
+      height: 90vh; /* Fyller 90% av viewport-höjden */
+      object-fit: cover; /* Fyller utrymmet, beskär vid behov */
+      display: block; /* Tar bort extra utrymme under bilden */
+      /* Ingen position: fixed; eller z-index här, den flödar med sidan */
+    }
+
+    /* Döljer texten "DESIGN, ART, MUSIC, VIDEO" */
     header p {
-      display: none; /* Döljer raden */
+      display: none;
     }
 
     .custom-heading {
@@ -92,15 +86,14 @@
     }
 
     header {
-      padding: 0; /* Tar bort all padding från headern */
-      min-height: auto; /* Återställer min-höjd */
-      position: relative; /* För att z-index ska fungera korrekt för barn */
-      z-index: 1; /* Ovanpå den vita rutan */
-      display: block; /* Tar bort flexbox centrering */
+      padding: 0; /* Tar bort all padding */
+      margin-bottom: 2rem; /* Lite utrymme efter GIF och rubriker */
+      position: relative; /* Viktigt för z-index på content-wrapper-frame */
+      z-index: 1; /* Säkerställer att headern ligger över canvasen */
     }
 
     .section-links {
-        margin-top: 20vh; /* Skapa utrymme under rubriken/intro-gif:en */
+        margin-top: 2rem; /* Ger utrymme under rubrikerna i headern */
         margin-bottom: 2rem;
     }
 
@@ -122,22 +115,20 @@
     }
 
     .project {
-      margin: 3rem auto; /* Centrera projekten */
-      max-width: 800px; /* Begränsa bredden för läsbarhet */
-      padding: 1rem;
+      margin: 3rem 0; /* Inga auto-margins här, då parent centrerar */
     }
 
     .project img {
-      width: 100%; /* Gör bilder responsiva */
-      max-width: 420px; /* Maxbredd som tidigare */
+      width: 100%; /* Gör bilder responsiva inom ramen */
+      max-width: 420px; /* Maxbredd för enskilda bilder */
       margin: 1rem auto;
-      display: block; /* Centrera blockelement */
+      display: block;
     }
 
     iframe {
-      max-width: 100%; /* Responsiv iframe */
-      width: 560px; /* Standardbredd, kommer att skalas ner */
-      height: 315px; /* Standardhöjd */
+      width: 100%; /* Fyller alltid bredden på sin container */
+      max-width: 560px; /* Din önskade maxbredd */
+      height: 315px; /* Standardhöjd för 16:9 video */
     }
 
     .footer {
@@ -145,18 +136,17 @@
       padding: 2rem;
       background-color: #222;
       color: #fff;
-      z-index: 1; /* Ovanpå den vita rutan */
     }
 
     .gallery img {
-      max-width: 100%; /* Responsiv galleribild */
+      max-width: 100%;
       height: auto;
       margin-top: 1rem;
     }
 
     .carousel {
       position: relative;
-      width: 90%;
+      width: 90%; /* Justera bredd för karusellen */
       margin: 2rem auto;
       overflow: hidden;
     }
@@ -197,7 +187,7 @@
     /* Media queries för responsiv design */
     @media (max-width: 768px) {
         .no-border-heading {
-            font-size: 1.5rem; /* Mindre fontstorlek på mindre skärmar */
+            font-size: 1.2rem;
             top: 10px;
             left: 10px;
         }
@@ -207,7 +197,7 @@
     }
     @media (max-width: 500px) {
         .no-border-heading {
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
         .custom-heading {
             font-size: 1.5rem;
@@ -221,11 +211,13 @@
 </head>
 <body>
 
-  <img class="intro-gif" src="GIF hemsida.gif" alt="Ville FERMENT intro" />
-
   <canvas id="bg-canvas"></canvas>
 
-  <div id="content-wrapper">
+  <h1 class="no-border-heading">ville FERMENT</h1>
+
+  <img class="intro-gif" src="GIF hemsida.gif" alt="Ville FERMENT intro" />
+
+  <div class="content-wrapper-frame">
     <header>
       <p>DESIGN, ART, MUSIC, VIDEO</p>
       <div class="section-links">
@@ -298,9 +290,7 @@
         <a href="https://www.tiktok.com/@villeferment" target="_blank" style="color: #fff;">TikTok</a>
       </p>
     </div>
-  </div> <h1 class="no-border-heading">ville FERMENT</h1>
-
-  <script>
+  </div> <script>
     document.addEventListener('DOMContentLoaded', () => {
       const canvas = document.getElementById("bg-canvas");
       const context = canvas.getContext("2d");
@@ -331,7 +321,8 @@
         images.push(img);
       }
 
-      const scrollDistancePerLoop = 2000;
+      // Definiera hur många pixlar användaren måste scrolla för en hel loop av 40 frames.
+      const scrollDistancePerLoop = 2000; // Justera detta värde efter din önskade hastighet
 
       function render() {
         if (loadedImages < frameCount) {
