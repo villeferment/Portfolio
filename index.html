@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ville FERMENT</title>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -13,39 +12,18 @@
       color: #111;
       text-align: center;
     }
-
-    .custom-heading {
-      font-family: 'Zen Dots', sans-serif;
-      font-size: 2.8rem;
-      font-weight: bold;
-      letter-spacing: 0.3em;
-      line-height: 0.8;
-      display: inline-block;
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-    }
-
-    .no-border-heading {
-      font-family: 'Zen Dots', sans-serif;
-      font-size: 3.5rem;
-      font-weight: bold;
-      letter-spacing: 0.3em;
-      line-height: 0.8;
-      display: inline-block;
-      margin-bottom: 1rem;
-      text-transform: none;
-    }
-
     header {
       padding: 2rem;
     }
-
     .intro-gif {
       width: 100%;
       max-height: 90vh;
       object-fit: contain;
     }
-
+    h1 {
+      font-size: 2.5rem;
+      margin: 1rem 0;
+    }
     .section-links a {
       display: inline-block;
       margin: 1rem;
@@ -54,139 +32,155 @@
       color: #111;
       text-decoration: none;
       border: 2px solid #111;
+      border-radius: 0;
       font-weight: bold;
       transition: all 0.3s ease;
     }
-
     .section-links a:hover {
       background-color: #111;
       color: #fff;
     }
-
     .project {
       margin: 3rem 0;
     }
-
     .project img {
-      width: 420px;
+      width: 250px;
       margin: 1rem auto;
     }
-
     iframe {
       max-width: 90%;
     }
-
     .footer {
       margin-top: 4rem;
       padding: 2rem;
       background-color: #222;
       color: #fff;
     }
-
     .gallery img {
-      max-width: 600px;
+      max-width: 300px;
       margin-top: 1rem;
     }
-
-    .carousel {
-      position: relative;
+    .pdf-viewer {
       width: 90%;
+      height: 500px;
+      overflow-x: scroll;
+      white-space: nowrap;
+      border: 1px solid #ccc;
       margin: 2rem auto;
-      overflow: hidden;
     }
-
-    .carousel-track {
-      display: flex;
-      transition: transform 0.5s ease-in-out;
-    }
-
-    .carousel-slide {
-      min-width: 100%;
-      max-width: 100%;
-      height: auto;
-      max-height: 650px;
-      object-fit: contain;
-    }
-
-    .carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: rgba(0, 0, 0, 0.6);
-      color: white;
-      border: none;
-      padding: 1rem;
-      font-size: 2rem;
-      cursor: pointer;
-      z-index: 2;
-    }
-
-    .carousel-btn.prev { left: 0; }
-    .carousel-btn.next { right: 0; }
-
-    a {
-      color: inherit;
+    .pdf-viewer iframe {
+      display: inline-block;
+      height: 100%;
+      width: 100%;
     }
   </style>
+<style>
+  #bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+  }
+</style>
 </head>
 <body>
-
+  <canvas id="bg-canvas"></canvas>
   <header>
     <img class="intro-gif" src="GIF hemsida.gif" alt="Ville FERMENT intro" />
-    <h1 class="no-border-heading">ville FERMENT</h1>
-    <p>DESIGN, ART, MUSIC, VIDEO</p>
+    <h1>ville FERMENT</h1>
     <div class="section-links">
-      <a href="#audio">AUDIO</a>
-      <a href="#visual">VISUAL</a>
+      <a href="#music">MUSIC</a>
+      <a href="#form">FORM</a>
     </div>
   </header>
 
- <section id="audio">
-  <h2 class="custom-heading">Audio</h2>
-  <div class="project">
-    <h3>EUKARYA (2025)</h3>
-    <p>Artist, songwriter, producer & graphic design – ville FERMENT</p>
-    <div style="text-align:center;">
-      <img src="ALBUM COVER EUK.jpg" alt="EUKARYA album cover" style="display:block; margin: 0 auto; max-width: 325px;"/>
-      <a href="https://open.spotify.com/album/1KAtw2uYgNiH0zGs1L31DL?si=pfCcUDqjQ8Gdtzb6Jx1rpg" target="_blank" style="display:block; margin-top: 0.5rem;">Listen on Spotify</a>
+  <section id="music">
+    <h2>Music</h2>
+    <div class="project">
+      <h3>EUKARYA (2025)</h3>
+      <p>Artist, songwriter & producer – FERMENT</p>
+      <img src="ALBUM COVER EUK.jpg" alt="EUKARYA album cover" />
+      <a href="https://open.spotify.com/album/1KAtw2uYgNiH0zGs1L31DL?si=pfCcUDqjQ8Gdtzb6Jx1rpg" target="_blank">Listen on Spotify</a>
     </div>
-  </div>
-  <div class="project">
-    <h3>FAAW (2024)</h3>
-    <p>Artist, songwriter, producer & graphic design – ville FERMENT</p>
-    <div style="text-align:center;">
-      <img src="ALBUMCOVER FAAW kopiera.jpg" alt="FAAW album cover" style="display:block; margin: 0 auto; max-width: 325px;"/>
-      <a href="https://open.spotify.com/album/24eoeFe7fDuIraRPceMVWO?si=fwmaBwBeRnqo7S2fS4CLDg" target="_blank" style="display:block; margin-top: 0.5rem;">Listen on Spotify</a>
+    <div class="project">
+      <h3>FAAW (2024)</h3>
+      <p>Artist, songwriter & producer – FERMENT</p>
+      <img src="ALBUMCOVER FAAW kopiera.jpg" alt="FAAW album cover" />
+      <a href="https://open.spotify.com/album/24eoeFe7fDuIraRPceMVWO?si=fwmaBwBeRnqo7S2fS4CLDg" target="_blank">Listen on Spotify</a>
     </div>
-
-
-  </section>
-
-  <section id="visual">
-    <h2 class="custom-heading">Visual</h2>
-      <div class="project">
-      <h3>Video Year Visualizer (2025)</h3>
+    <div class="project">
+      <h3>Video Year Visualizer</h3>
       <p>Filmed and edited by ville FERMENT</p>
       <iframe width="560" height="315" src="https://www.youtube.com/embed/CmVLalLLPj0" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
     </div>
-    
-    <div class="project">
-      <h3>A conversation with ChatGPT (2025)</h3>
-      <p>A project exploring the diffrence between AI and human as artists</p>
-      <div class="carousel">
-        <button class="carousel-btn prev" onclick="plusSlides(-1)">&#10094;</button>
-        <div class="carousel-track" id="carousel-track">
-          <img src="ai-page-1.png" class="carousel-slide" alt="AI page 1">
-          <img src="ai-page-2.png" class="carousel-slide" alt="AI page 2">
-          <img src="ai-page-3.png" class="carousel-slide" alt="AI page 3">
-          <img src="ai-page-4.png" class="carousel-slide" alt="AI page 4">
-        </div>
-        <button class="carousel-btn next" onclick="plusSlides(1)">&#10095;</button>
-      </div>
-    </div>
+  </section>
 
+  <section id="form">
+    <h2>Form</h2>
     <div class="project">
-      <h3>Graphic Design – FRVR (2024)</h3>
+      <h3>Konstnären AI: A conversation with ChatGPT</h3>
+      <p>Project exploring AI as an artist</p>
+      <div class="pdf-carousel">
+  <button class="carousel-btn prev" onclick="plusSlides(-1)">&#10094;</button>
+  <div class="carousel-track">
+    <img src="ai-page-1.png" class="carousel-slide" style="max-width: 90%; height: auto; object-fit: contain;" />
+    <img src="ai-page-2.png" class="carousel-slide" style="max-width: 90%; height: auto; object-fit: contain;" />
+    <img src="ai-page-3.png" class="carousel-slide" style="max-width: 90%; height: auto; object-fit: contain;" />
+    <!-- Lägg till fler sidor här om det behövs -->
+  </div>
+  <button class="carousel-btn next" onclick="plusSlides(1)">&#10095;</button>
+</div>
+
+<style>
+  .pdf-carousel {
+    position: relative;
+    width: 90%;
+    margin: 2rem auto;
+    overflow: hidden;
+  }
+  .carousel-track {
+    display: flex;
+    transition: transform 0.4s ease-in-out;
+  }
+  .carousel-slide {
+    min-width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .prev { left: 0; }
+  .next { right: 0; }
+</style>
+
+<script>
+  let slideIndex = 0;
+  const track = document.querySelector('.carousel-track');
+  const slides = document.querySelectorAll('.carousel-slide');
+
+  function plusSlides(n) {
+    slideIndex += n;
+    if (slideIndex < 0) slideIndex = slides.length - 1;
+    if (slideIndex >= slides.length) slideIndex = 0;
+    track.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
+  }
+</script>
+    </div>
+    <div class="project">
+      <h3>Graphic Design – FRVR</h3>
       <p>Artwork for Daouda's single "FRVR"</p>
       <div class="gallery">
         <img src="FRVR cover.png" alt="FRVR Cover by ville FERMENT" />
@@ -197,28 +191,69 @@
   </section>
 
   <div class="footer">
-    <h3>Contact</h3>
-    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">
-      Email: <a href="mailto:villeferment@gmail.com" style="color: #fff; text-decoration: underline;">villeferment@gmail.com</a>
-    </p>
-    <p style="font-size: 1.1rem;">
-      <a href="https://www.instagram.com/villeferment/" target="_blank" style="color: #fff; margin-right: 1rem;">Instagram</a>
-      <a href="https://www.tiktok.com/@villeferment" target="_blank" style="color: #fff;">TikTok</a>
-    </p>
-  </div>
+  <h3>Contact</h3>
+  <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">
+    Email: <a href="mailto:villeferment@gmail.com" style="color: #fff; text-decoration: underline;">villeferment@gmail.com</a>
+  </p>
+  <p style="font-size: 1.1rem;">
+    <a href="https://www.instagram.com/villeferment/" target="_blank" style="color: #fff; margin-right: 1rem;">Instagram</a>
+    <a href="https://www.tiktok.com/@villeferment" target="_blank" style="color: #fff;">TikTok</a>
+  </p>
+</div>
+<script>
+const canvas = document.getElementById("bg-canvas");
+const context = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-  <script>
-    let slideIndex = 0;
-    const track = document.getElementById('carousel-track');
-    const slides = document.querySelectorAll('.carousel-slide');
+const frameCount = 40;
+const currentFrame = index => `frames/${String(index + 1).padStart(4, '0')}.png`;
 
-    function plusSlides(n) {
-      slideIndex += n;
-      if (slideIndex < 0) slideIndex = slides.length - 1;
-      if (slideIndex >= slides.length) slideIndex = 0;
-      track.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
-    }
-  </script>
+const images = [];
+let loadedImages = 0;
+let scrollStart = 0;
 
+for (let i = 0; i < frameCount; i++) {
+  const img = new Image();
+  img.src = currentFrame(i);
+  img.onload = () => loadedImages++;
+  images.push(img);
+}
+
+function getOffsetTop(elem) {
+  let offsetTop = 0;
+  while (elem) {
+    offsetTop += elem.offsetTop;
+    elem = elem.offsetParent;
+  }
+  return offsetTop;
+}
+
+const audioSection = document.getElementById("audio");
+const audioOffset = getOffsetTop(audioSection);
+
+function render() {
+  if (loadedImages < frameCount) return;
+
+  const scrollY = window.scrollY;
+  const maxScroll = document.body.scrollHeight - window.innerHeight;
+  let scrollRel = (scrollY - audioOffset) / window.innerHeight;
+  scrollRel = Math.max(0, scrollRel);
+
+  let frameIndex = Math.floor((scrollRel * frameCount)) % frameCount;
+  const img = images[frameIndex];
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.drawImage(img, 0, 0, canvas.width, canvas.height);
+}
+
+window.addEventListener("scroll", render);
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  render();
+});
+
+render();
+</script>
 </body>
 </html>
