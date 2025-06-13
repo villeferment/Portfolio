@@ -484,6 +484,18 @@
       });
 
       render();
+
+      let lastScrollY = window.scrollY;
+
+function animate() {
+  if (Math.abs(window.scrollY - lastScrollY) > 1) {
+    render();
+    lastScrollY = window.scrollY;
+  }
+  requestAnimationFrame(animate);
+}
+
+animate();
     });
 
     // JavaScript för bildkarusellen (A conversation with ChatGPT)
