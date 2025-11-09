@@ -54,7 +54,6 @@ body {
   height: 90vh;
   object-fit: cover;
   display: block;
-  position: relative;
 }
 
 header p { display: none; }
@@ -67,10 +66,14 @@ header p { display: none; }
   margin-top: 4rem;
   margin-bottom: 1rem;
   text-transform: uppercase;
+  z-index: 2;
   color: #111;
 }
 
-header { height: 90vh; position: relative; }
+header {
+  height: 90vh;
+  position: relative;
+}
 
 .section-links {
   position: absolute;
@@ -98,13 +101,20 @@ header { height: 90vh; position: relative; }
 
 .project { margin: 3rem 0; }
 
+.project img {
+  width: 100%;
+  max-width: 420px;
+  margin: 1rem auto;
+  display: block;
+}
+
 iframe {
   width: 100%;
   max-width: 560px;
   height: 315px;
 }
 
-/* NEW — MEALPILL same width as YouTube video */
+/* FIX: MEALPILL video responsive */
 .mealpill-video {
   width: 100%;
   max-width: 560px;
@@ -113,6 +123,7 @@ iframe {
   margin: 0 auto;
 }
 
+/* Carousels */
 .carousel {
   position: relative;
   width: 90%;
@@ -165,7 +176,6 @@ iframe {
   background-color: #222;
   color: white;
 }
-
 </style>
 </head>
 
@@ -175,7 +185,8 @@ iframe {
 <h1 class="no-border-heading">ville FERMENT</h1>
 
 <header>
-  <img class="intro-gif" src="GIF hemsida.gif" />
+  <img class="intro-gif" src="GIF hemsida.gif" alt="" />
+  <p>DESIGN, ART, MUSIC, VIDEO</p>
   <div class="section-links">
     <a href="#audio">AUDIO</a>
     <a href="#visual">VISUAL</a>
@@ -185,7 +196,20 @@ iframe {
 <section id="audio">
   <h2 class="custom-heading">Audio</h2>
   <div class="content-wrapper-frame">
-    (DIN AUDIO DEL ÄR OFÖRÄNDRAD)
+
+    <div class="project">
+      <h3>EUKARYA - FERMENT (2025)</h3>
+      <p>Artist, songwriter, producer & graphic designer – ville FERMENT</p>
+      <img src="ALBUM COVER EUK.jpg" style="max-width:325px; margin:auto;">
+      <a href="https://open.spotify.com/album/1KAtw2uYgNiH0zGs1L31DL" target="_blank">Listen on Spotify</a>
+    </div>
+
+    <div class="project">
+      <h3>FAAW - FERMENT (2024)</h3>
+      <img src="ALBUMCOVER FAAW kopiera.jpg" style="max-width:325px; margin:auto;">
+      <a href="https://open.spotify.com/album/24eoeFe7fDuIraRPceMVWO" target="_blank">Listen on Spotify</a>
+    </div>
+
   </div>
 </section>
 
@@ -193,14 +217,13 @@ iframe {
   <h2 class="custom-heading">Visual</h2>
   <div class="content-wrapper-frame">
 
+    <!-- FIXED MEALPILL -->
     <div class="project">
       <h3>MEALPILL (2025)</h3>
       <p>What will our future meals look like?</p>
-      <div class="gallery">
-        <video controls playsinline muted class="mealpill-video">
-          <source src="mealpill till hemsida.mp4" type="video/mp4">
-        </video>
-      </div>
+      <video controls playsinline muted class="mealpill-video">
+        <source src="mealpill till hemsida.mp4" type="video/mp4">
+      </video>
     </div>
 
     <div class="project">
@@ -208,21 +231,90 @@ iframe {
       <iframe src="https://www.youtube.com/embed/CmVLalLLPj0" allowfullscreen></iframe>
     </div>
 
-    (RESTEN AV DIN KOD ÄR IDENTISK OCH LÄMNAS PRECIS SOM DU SKICKADE DEN)
+    <div class="project">
+      <h3>A conversation with ChatGPT (2025)</h3>
+      <div class="carousel">
+        <button class="carousel-btn prev" onclick="plusSlides(-1)">❮</button>
+        <div class="carousel-track" id="carousel-track">
+          <div class="carousel-slide"><img src="AI selfie 2.png"></div>
+          <div class="carousel-slide"><img src="ai-page-1.png"></div>
+          <div class="carousel-slide"><img src="ai-page-2.png"></div>
+          <div class="carousel-slide"><img src="ai-page-3.png"></div>
+          <div class="carousel-slide"><img src="ai-page-4.png"></div>
+        </div>
+        <button class="carousel-btn next" onclick="plusSlides(1)">❯</button>
+      </div>
+    </div>
+
+    <div class="project">
+      <h3>Mixed visualizers (2024-2025)</h3>
+      <div class="carousel" id="video-carousel">
+        <button class="carousel-btn prev" onclick="plusVideoSlides(-1)">❮</button>
+        <div class="carousel-track" id="video-carousel-track">
+
+          <div class="carousel-slide">
+            <video controls playsinline muted><source src="visualizer 7.mp4"></video>
+          </div>
+
+          <div class="carousel-slide">
+            <video controls playsinline muted><source src="bruta video stardust.mov"></video>
+          </div>
+
+          <div class="carousel-slide">
+            <video controls playsinline muted><source src="visualizer 1.mp4"></video>
+          </div>
+
+          <div class="carousel-slide">
+            <video controls playsinline muted><source src="visualizer 6.mp4"></video>
+          </div>
+
+        </div>
+        <button class="carousel-btn next" onclick="plusVideoSlides(1)">❯</button>
+      </div>
+    </div>
+
+    <div class="project">
+      <h3>FRVR - Daouda (2024)</h3>
+      <img src="FRVR cover.png">
+      <a href="https://open.spotify.com/track/1R52wxxPBP4pIOntaf00Nf" target="_blank">Listen on Spotify</a>
+    </div>
 
   </div>
 </section>
 
 <div class="footer">
-  Contact: <a href="mailto:villeferment@gmail.com">villeferment@gmail.com</a>
+  Contact: <a href="mailto:villeferment@gmail.com" style="text-decoration:underline;">villeferment@gmail.com</a>
 </div>
 
 <script>
-// Unmute videos when user presses play
-document.querySelectorAll("video").forEach(video => {
-  video.addEventListener("play", () => {
-    video.muted = false;
-  });
+// Background frame animation loader fix
+function currentFrame(i){
+  return `frames/${String(i+1).padStart(4,"0")}.png`;
+}
+
+// Image carousel
+let imageSlideIndex = 0;
+function plusSlides(n){
+  const track=document.getElementById('carousel-track');
+  const slides=track.children;
+  imageSlideIndex=(imageSlideIndex+n+slides.length)%slides.length;
+  track.style.transform=`translateX(-${imageSlideIndex*100}%)`;
+}
+
+// Video carousel
+let videoSlideIndex=0;
+function plusVideoSlides(n){
+  const track=document.getElementById('video-carousel-track');
+  const slides=track.children;
+  const current=slides[videoSlideIndex].querySelector('video');
+  if(current) current.pause();
+  videoSlideIndex=(videoSlideIndex+n+slides.length)%slides.length;
+  track.style.transform=`translateX(-${videoSlideIndex*100}%)`;
+}
+
+// Unmute on user play
+document.querySelectorAll("video").forEach(v=>{
+  v.addEventListener("play",()=>{ v.muted=false; });
 });
 </script>
 
