@@ -4,349 +4,432 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ville FERMENT</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Zen+Dots&display=swap" rel="stylesheet" />
-
 <style>
-/* ----- BASLAYOUT ----- */
-
 body {
-  margin: 0;
-  font-family: 'Helvetica Neue', sans-serif;
-  background-color: #f5f5f5;
-  color: #111;
-  text-align: center;
-  overflow-x: hidden;
+    margin: 0;
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f5f5f5;
+    color: #111;
+    text-align: center;
+    overflow-x: hidden;
 }
 
-/* ----- BAKGRUNDSANIMATION ----- */
+/* Canvas bakgrund */
 #bg-canvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-  background: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    background: white;
 }
 
-/* ----- HEADERNAMN ----- */
+/* Vit ram */
+.content-wrapper-frame {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 560px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Rubrik */
 .no-border-heading {
-  font-family: 'Libre Baskerville', serif;
-  font-size: 1.5rem;
-  font-weight: bold;
-  letter-spacing: 0.05em;
-  position: fixed;
-  top: 20px; left: 20px;
-  z-index: 10;
-  background-color: rgba(255,255,255,0.8);
-  border-radius: 5px;
-  padding: 5px 10px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    color: #111;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    padding: 5px 10px;
+    background-color: rgba(255,255,255,0.8);
+    border-radius: 5px;
 }
 
-/* ----- INTRO ----- */
-header {
-  position: relative;
-  height: 90vh;
-}
-
+/* Intro GIF */
 .intro-gif {
-  width: 100%;
-  height: 90vh;
-  object-fit: cover;
-  display: block;
+    width: 100%;
+    height: 90vh;
+    object-fit: cover;
+    display: block;
+    position: relative;
 }
 
-header p { display: none; }
+/* Header */
+header p {
+    display: none;
+}
+.custom-heading {
+    font-family: 'Zen Dots', sans-serif;
+    font-size: 2.8rem;
+    font-weight: bold;
+    letter-spacing: 0.3em;
+    line-height: 0.8;
+    display: inline-block;
+    margin-top: 4rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+    color: #111;
+}
+header {
+    padding: 0;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 1;
+    height: 90vh;
+}
 
-/* ----- SEKTIONSLÄNKAR ----- */
+/* Sektion-länkar */
 .section-links {
-  position: absolute;
-  bottom: 2rem; left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    width: 100%;
 }
-
 .section-links a {
-  margin: 1rem;
-  padding: 1rem 2rem;
-  background-color: rgba(255,255,255,0.7);
-  border: 2px solid #111;
-  color: #111;
-  text-decoration: none;
-  font-weight: bold;
-  transition: 0.3s;
+    display: inline-block;
+    margin: 1rem;
+    padding: 1rem 2rem;
+    background-color: rgba(255,255,255,0.7);
+    color: #111;
+    text-decoration: none;
+    border: 2px solid #111;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
 .section-links a:hover {
-  background-color: #111;
-  color: white;
+    background-color: #111;
+    color: #fff;
 }
 
-/* ----- RUBRIKER ----- */
-.custom-heading {
-  font-family: 'Zen Dots', sans-serif;
-  font-size: 2.8rem;
-  letter-spacing: 0.3em;
-  margin-top: 4rem;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  color: #111;
-}
-
-/* ----- VITA RAMEN ----- */
-.content-wrapper-frame {
-  position: relative;
-  z-index: 1;
-  width: 90%;
-  max-width: 560px;
-  margin: 0 auto;
-  background-color: rgba(255,255,255,0.95);
-  box-shadow: 0 0 15px rgba(0,0,0,0.05);
-  padding: 20px 0;
-  box-sizing: border-box;
-}
-
-/* ----- PROJEKT ----- */
+/* Projekt */
 .project {
-  margin: 3rem 0;
+    margin: 3rem 0;
+}
+.project img {
+    width: 100%;
+    max-width: 420px;
+    margin: 1rem auto;
+    display: block;
+}
+.project p {
+    margin-top: 0.5rem;
+    font-size: 1rem;
 }
 
-.project img,
-.project video,
-iframe {
-  width: 100%;
-  max-width: 560px;
-  display: block;
-  margin: 1rem auto;
+/* Iframe med rätt ratio */
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 ratio */
+    margin: 1rem 0;
+}
+.video-wrapper iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border: 0;
 }
 
-/* Video spacing återställd */
-.project video {
-  margin-bottom: 1.5rem;
+/* Footer */
+.footer {
+    margin-top: 4rem;
+    padding: 2rem;
+    background-color: #222;
+    color: #fff;
+}
+.footer a {
+    color: #fff;
+    text-decoration: underline;
 }
 
-/* ----- GALLERI ----- */
-.gallery img {
-  width: 100%;
-  max-width: 500px;
-  margin-top: 1rem;
-}
-
-/* ----- KARUSELL ----- */
+/* Karusell */
 .carousel {
-  position: relative;
-  width: 90%;
-  max-width: 560px;
-  margin: 2rem auto;
-  overflow: hidden;
-  padding: 0 40px;
-  box-sizing: border-box;
+    position: relative;
+    width: 90%;
+    max-width: 560px;
+    margin: 2rem auto;
+    overflow: hidden;
+    padding: 0 40px;
+    box-sizing: border-box;
 }
-
 .carousel-track {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
 }
-
 .carousel-slide {
-  min-width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem;
+    box-sizing: border-box;
 }
-
-.carousel-slide img,
-.carousel-slide video {
-  width: 100%;
-  max-width: 100%;
-  max-height: 600px;
-  object-fit: contain;
+.carousel-slide img, .carousel-slide video {
+    width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    margin-bottom: 0.8rem;
 }
-
-/* ----- KARUSELL KNAPPAR ----- */
+.carousel-slide h4 {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    color: #333;
+}
 .carousel-btn {
-  position: absolute;
-  top: 50%; transform: translateY(-50%);
-  background-color: rgba(0,0,0,0.6);
-  color: white;
-  border: none;
-  width: 40px; height: 40px;
-  cursor: pointer;
-  display: flex; justify-content: center; align-items: center;
-  z-index: 3;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+    padding: 0.5rem;
 }
-
 .carousel-btn.prev { left: 0; }
 .carousel-btn.next { right: 0; }
 
-/* ----- FOOTER ----- */
-.footer {
-  margin-top: 4rem;
-  padding: 2rem;
-  background-color: #222;
-  color: white;
+/* Media queries */
+@media (max-width: 768px) {
+    .no-border-heading { font-size: 1.2rem; top: 10px; left: 10px; }
+    .custom-heading { font-size: 2rem; }
+    .section-links { bottom: 1rem; }
+    .carousel-slide h4 { font-size: 1rem; }
+}
+@media (max-width: 500px) {
+    .no-border-heading { font-size: 1rem; }
+    .custom-heading { font-size: 1.5rem; }
+    .section-links a { padding: 0.8rem 1.5rem; margin: 0.5rem; }
+    .carousel { padding: 0 25px; }
+    .carousel-btn { font-size: 1.5rem; width: 30px; height: 30px; }
 }
 </style>
 </head>
-
 <body>
-
 <canvas id="bg-canvas"></canvas>
-
 <h1 class="no-border-heading">ville FERMENT</h1>
-
 <header>
-  <img class="intro-gif" src="GIF hemsida.gif" alt="">
-  <div class="section-links">
-    <a href="#audio">AUDIO</a>
-    <a href="#visual">VISUAL</a>
-  </div>
+    <img class="intro-gif" src="GIF hemsida.gif" alt="Ville FERMENT intro" />
+    <p>DESIGN, ART, MUSIC, VIDEO</p>
+    <div class="section-links">
+        <a href="#audio">AUDIO</a>
+        <a href="#visual">VISUAL</a>
+    </div>
 </header>
 
 <section id="audio">
 <h2 class="custom-heading">Audio</h2>
 <div class="content-wrapper-frame">
-
-  <div class="project">
-    <h3>EUKARYA - FERMENT (2025)</h3>
-    <p>Artist, songwriter, producer & graphic designer – ville FERMENT</p>
-    <img src="ALBUM COVER EUK.jpg">
-    <a href="https://open.spotify.com/album/1KAtw2uYgNiH0zGs1L31DL" target="_blank">Listen on Spotify</a>
-  </div>
-
-  <div class="project">
-    <h3>FAAW - FERMENT (2024)</h3>
-    <p>Artist, songwriter, producer & graphic designer – ville FERMENT</p>
-    <img src="ALBUMCOVER FAAW kopiera.jpg">
-    <a href="https://open.spotify.com/album/24eoeFe7fDuIraRPceMVWO" target="_blank">Listen on Spotify</a>
-  </div>
-
+    <div class="project">
+        <h3>EUKARYA - FERMENT (2025)</h3>
+        <p>Artist, songwriter, producer & graphic designer – ville FERMENT</p>
+        <div style="text-align:center;">
+            <img src="ALBUM COVER EUK.jpg" alt="EUKARYA album cover" style="max-width:325px; margin:0 auto;"/>
+            <a href="https://open.spotify.com/album/1KAtw2uYgNiH0zGs1L31DL?si=pfCcUDqjQ8Gdtzb6Jx1rpg" target="_blank">Listen on Spotify</a>
+            <a href="https://civilpolis.org:4533/radiocivil2/app/#/album/107277125b4af2592ae2c5f463f3691c/show" target="_blank">Listen on CIVILRADIO</a>
+        </div>
+    </div>
+    <div class="project">
+        <h3>FAAW - FERMENT (2024)</h3>
+        <p>Artist, songwriter, producer & graphic designer – ville FERMENT</p>
+        <div style="text-align:center;">
+            <img src="ALBUMCOVER FAAW kopiera.jpg" alt="FAAW album cover" style="max-width:325px; margin:0 auto;"/>
+            <a href="https://open.spotify.com/album/24eoeFe7fDuIraRPceMVWO?si=fwmaBwBeRnqo7S2fS4CLDg" target="_blank">Listen on Spotify</a>
+        </div>
+    </div>
 </div>
 </section>
 
 <section id="visual">
 <h2 class="custom-heading">Visual</h2>
 <div class="content-wrapper-frame">
-
-  <div class="project">
-    <h3>MEALPILL (2025)</h3>
-    <p>What will our future meals look like?</p>
-    <video controls playsinline muted>
-      <source src="mealpill till hemsida.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <div class="project">
-    <h3>Video Year Visualizer (2025)</h3>
-    <iframe src="https://www.youtube.com/embed/CmVLalLLPj0" allowfullscreen></iframe>
-  </div>
-
-  <div class="project">
-    <h3>A conversation with ChatGPT (2025)</h3>
-    <p>A project exploring the difference between AI and human as artists</p>
-
-    <div class="carousel">
-      <button class="carousel-btn prev" onclick="plusSlides(-1)">❮</button>
-      <div class="carousel-track" id="carousel-track">
-        <div class="carousel-slide"><img src="AI selfie 2.png"></div>
-        <div class="carousel-slide"><img src="ai-page-1.png"></div>
-        <div class="carousel-slide"><img src="ai-page-2.png"></div>
-        <div class="carousel-slide"><img src="ai-page-3.png"></div>
-        <div class="carousel-slide"><img src="ai-page-4.png"></div>
-      </div>
-      <button class="carousel-btn next" onclick="plusSlides(1)">❯</button>
+    <div class="project">
+        <h3>MEALPILL (2025)</h3>
+        <p>What will our future meals look like?</p>
+        <div class="gallery">
+            <video controls playsinline muted>
+                <source src="mealpill till hemsida.mp4" type="video/mp4">
+            </video>
+        </div>
     </div>
-  </div>
-
-  <div class="project">
-    <h3>Mixed visualizers (2024–2025)</h3>
-    <p>Assembled short audio-visualizing videoclips</p>
-
-    <div class="carousel">
-      <button class="carousel-btn prev" onclick="plusVideoSlides(-1)">❮</button>
-      <div class="carousel-track" id="video-carousel-track">
-        <!-- (alla videor behållna oförändrade, bara formaterade) -->
-        <div class="carousel-slide"><video controls playsinline muted><source src="visualizer 7.mp4"></video></div>
-        <div class="carousel-slide"><video controls playsinline muted><source src="bruta video stardust.mov"></video></div>
-        <div class="carousel-slide"><video controls playsinline muted><source src="visualizer 1.mp4"></video></div>
-        <div class="carousel-slide"><video controls playsinline muted><source src="visualizer 6.mp4"></video></div>
-        <div class="carousel-slide"><video controls playsinline muted><source src="visualizer 2.mp4"></video></div>
-        <div class="carousel-slide"><video controls playsinline muted><source src="visualizer 3.mp4"></video></div>
-        <div class="carousel-slide"><video controls playsinline muted><source src="visualizer 4.mp4"></video></div>
-        <div class="carousel-slide"><video controls playsinline muted><source src="visualizer 5.mp4"></video></div>
-      </div>
-      <button class="carousel-btn next" onclick="plusVideoSlides(1)">❯</button>
+    <div class="project">
+        <h3>Video Year Visualizer (2025)</h3>
+        <p>Filmed and edited by ville FERMENT</p>
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/CmVLalLLPj0" title="YouTube video player" allowfullscreen></iframe>
+        </div>
     </div>
-  </div>
-
-  <div class="project">
-    <h3>FRVR - Daouda (2024)</h3>
-    <p>Cover art and graphic design by ville FERMENT</p>
-    <img src="FRVR cover.png">
-    <a href="https://open.spotify.com/track/1R52wxxPBP4pIOntaf00Nf" target="_blank">Listen on Spotify</a>
-  </div>
-
+    <div class="project">
+        <h3>A conversation with ChatGPT (2025)</h3>
+        <p>A project exploring the difference between AI and human as artists</p>
+        <div class="carousel">
+            <button class="carousel-btn prev" onclick="plusSlides(-1)">❮</button>
+            <div class="carousel-track" id="carousel-track">
+                <img src="AI selfie 2.png" class="carousel-slide" alt="AI page 1"/>
+                <img src="ai-page-1.png" class="carousel-slide" alt="AI page 1"/>
+                <img src="ai-page-2.png" class="carousel-slide" alt="AI page 2"/>
+                <img src="ai-page-3.png" class="carousel-slide" alt="AI page 3"/>
+                <img src="ai-page-4.png" class="carousel-slide" alt="AI page 4"/>
+            </div>
+            <button class="carousel-btn next" onclick="plusSlides(1)">❯</button>
+        </div>
+    </div>
+    <div class="project">
+        <h3>Mixed visualizers (2024-2025)</h3>
+        <p>Assembled short audio-visualizing videoclips</p>
+        <div class="carousel" id="video-carousel">
+            <button class="carousel-btn prev" onclick="plusVideoSlides(-1)">❮</button>
+            <div class="carousel-track" id="video-carousel-track">
+                <div class="carousel-slide">
+                    <video controls playsinline muted>
+                        <source src="visualizer 7.mp4" type="video/mp4">
+                    </video>
+                    <h4>(2025 - TouchDesigner, DaVinci Resolve)</h4>
+                </div>
+                <div class="carousel-slide">
+                    <video controls playsinline muted>
+                        <source src="bruta video stardust.mov" type="video/mp4">
+                    </video>
+                    <h4>(2025 - Blender, DaVinci Resolve)</h4>
+                </div>
+                <div class="carousel-slide">
+                    <video controls playsinline muted>
+                        <source src="visualizer 1.mp4" type="video/mp4">
+                    </video>
+                    <h4>Eukarya (2025 - Blender, DaVinci Resolve)</h4>
+                </div>
+                <div class="carousel-slide">
+                    <video controls playsinline muted>
+                        <source src="visualizer 6.mp4" type="video/mp4">
+                    </video>
+                    <h4>Video year (2025 - Blender, DaVinci Resolve)</h4>
+                </div>
+                <div class="carousel-slide">
+                    <video controls playsinline muted>
+                        <source src="visualizer 2.mp4" type="video/mp4">
+                    </video>
+                    <h4>Train Rides Over the Sinking Islands (2025 - Blender, DaVinci Resolve)</h4>
+                </div>
+                <div class="carousel-slide">
+                    <video controls playsinline muted>
+                        <source src="visualizer 3.mp4" type="video/mp4">
+                    </video>
+                    <h4>Pt. 2 (2025 - DaVinci Resolve)</h4>
+                </div>
+                <div class="carousel-slide">
+                    <video controls playsinline muted>
+                        <source src="visualizer 4.mp4" type="video/mp4">
+                    </video>
+                    <h4>Mountaineer (2025 - Blender, DaVinci Resolve)</h4>
+                </div>
+                <div class="carousel-slide">
+                    <video controls playsinline muted>
+                        <source src="visualizer 5.mp4" type="video/mp4">
+                    </video>
+                    <h4>Dalmatian Army (2024 - DaVinci Resolve)</h4>
+                </div>
+            </div>
+            <button class="carousel-btn next" onclick="plusVideoSlides(1)">❯</button>
+        </div>
+    </div>
 </div>
 </section>
 
 <div class="footer">
-  <h3>Contact</h3>
-  <p>Email: <a href="mailto:villeferment@gmail.com" style="color:#fff; text-decoration:underline;">villeferment@gmail.com</a></p>
-  <p>Instagram / TikTok: @villeferment</p>
+    <h3>Contact</h3>
+    <p>Email: <a href="mailto:villeferment@gmail.com">villeferment@gmail.com</a></p>
+    <p><a href="https://www.instagram.com/villeferment/">Instagram</a> | <a href="https://www.tiktok.com/@villeferment">TikTok</a></p>
+    <p>Website designed by ville FERMENT</p>
 </div>
 
 <script>
-/* ----- BAKGRUNDSANIMATION FIX ----- */
-function currentFrame(i){
-  return `frames/${String(i+1).padStart(4,"0")}.png`;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-  const canvas = document.getElementById("bg-canvas");
-  const context = canvas.getContext("2d");
+    // Canvas bakgrund
+    const canvas = document.getElementById("bg-canvas");
+    const ctx = canvas.getContext("2d");
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    const frameCount = 40;
+    const images = [];
+    let loadedImages = 0;
+    function currentFrame(index) {
+        return `frames/${String(index+1).padStart(4,'0')}.png`;
+    }
+    for (let i=0;i<frameCount;i++){
+        const img = new Image();
+        img.src = currentFrame(i);
+        img.onload = () => { loadedImages++; if(loadedImages===frameCount) render(); };
+        images.push(img);
+    }
+    const scrollDistancePerLoop = 2000;
+    function render(){
+        if(loadedImages<frameCount) return;
+        const scrollY = window.scrollY || window.pageYOffset;
+        const progress = scrollY / scrollDistancePerLoop;
+        const frameIndex = Math.floor(progress*frameCount) % frameCount;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.drawImage(images[frameIndex],0,0,canvas.width,canvas.height);
+    }
+    window.addEventListener('scroll',()=>{requestAnimationFrame(render);});
+    window.addEventListener('resize',()=>{resizeCanvas(); render();});
+    render();
 
-  function resizeCanvas(){ canvas.width = innerWidth; canvas.height = innerHeight; }
-  resizeCanvas();
+    // Karusell: bilder
+    let imageSlideIndex = 0;
+    const imageTrack = document.getElementById('carousel-track');
+    const imageSlides = imageTrack ? imageTrack.children : [];
+    window.plusSlides = function(n){
+        if(!imageSlides.length) return;
+        imageSlideIndex += n;
+        if(imageSlideIndex<0) imageSlideIndex=imageSlides.length-1;
+        if(imageSlideIndex>=imageSlides.length) imageSlideIndex=0;
+        imageTrack.style.transform = `translateX(-${imageSlideIndex*100}%)`;
+    }
 
-  const frameCount = 40;
-  const images = [];
-  let loaded = 0;
-
-  for(let i=0;i<frameCount;i++){
-    const img=new Image();
-    img.src=currentFrame(i);
-    img.onload=()=>{ if(++loaded===frameCount) render(); };
-    images.push(img);
-  }
-
-  function render(){
-    const scrollY = scrollY || pageYOffset;
-    const frameIndex = Math.floor((scrollY/2000)*frameCount)%frameCount;
-    context.clearRect(0,0,canvas.width,canvas.height);
-    context.drawImage(images[frameIndex],0,0,canvas.width,canvas.height);
-  }
-
-  window.addEventListener("scroll",()=>requestAnimationFrame(render));
+    // Karusell: video
+    let videoSlideIndex = 0;
+    const videoTrack = document.getElementById('video-carousel-track');
+    const videoSlides = videoTrack ? videoTrack.children : [];
+    window.plusVideoSlides = function(n){
+        if(!videoSlides.length) return;
+        // pausa aktuell video
+        if(videoSlides[videoSlideIndex] && videoSlides[videoSlideIndex].querySelector('video')) videoSlides[videoSlideIndex].querySelector('video').pause();
+        videoSlideIndex += n;
+        if(videoSlideIndex<0) videoSlideIndex=videoSlides.length-1;
+        if(videoSlideIndex>=videoSlides.length) videoSlideIndex=0;
+        videoTrack.style.transform = `translateX(-${videoSlideIndex*100}%)`;
+    }
 });
-
-/* ----- KARUSELL SCRIPT ----- */
-let imageSlideIndex = 0;
-function plusSlides(n){
-  const track=document.getElementById('carousel-track');
-  const slides=track.children;
-  imageSlideIndex=(imageSlideIndex+n+slides.length)%slides.length;
-  track.style.transform=`translateX(-${imageSlideIndex*100}%)`;
-}
-
-let videoSlideIndex=0;
-function plusVideoSlides(n){
-  const track=document.getElementById('video-carousel-track');
-  const slides=track.children;
-  const current=slides[videoSlideIndex].querySelector('video');
-  if(current) current.pause();
-  videoSlideIndex=(videoSlideIndex+n+slides.length)%slides.length;
-  track.style.transform=`translateX(-${videoSlideIndex*100}%)`;
-}
 </script>
-
 </body>
 </html>
